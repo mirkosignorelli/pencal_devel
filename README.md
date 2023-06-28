@@ -1,4 +1,3 @@
-
 # `R` package `pencal` (development version)
 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/pencal)](https://cran.r-project.org/package=pencal)
