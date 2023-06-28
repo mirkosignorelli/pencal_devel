@@ -1,5 +1,5 @@
 
-# `R` package `pencal`: (development version)
+# `R` package `pencal` (development version)
 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/pencal)](https://cran.r-project.org/package=pencal)
 [![Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/pencal?color=orange)](http://cranlogs.r-pkg.org/badges/grand-total/pencal)
@@ -9,8 +9,7 @@
 
 ## `pencal`: what's that?
 
-`pencal` is the `R` package that implements Penalized Regression Calibration (PRC), a statistical method that we proposed in Signorelli *et al.* (2021). Penalized regression calibration: A method for the prediction of survival outcomes using complex longitudinal and high-dimensional data. *Statistics in Medicine*, 40 (27), 6178-6196. 
-You can read and download the paper (with open access) [here](https://onlinelibrary.wiley.com/doi/10.1002/sim.9178).
+`pencal` is the `R` package that implements Penalized Regression Calibration (PRC), a statistical method that we proposed in Signorelli *et al.* (2021). [Penalized regression calibration: A method for the prediction of survival outcomes using complex longitudinal and high-dimensional data](https://onlinelibrary.wiley.com/doi/10.1002/sim.9178). *Statistics in Medicine*, 40 (27), 6178-6196. 
 
 ## About this repository
 
@@ -42,25 +41,9 @@ You can install the development version of pencal from [GitHub](https://github.c
 devtools::install_github("mirkosignorelli/pencal_devel")
 ```
 
+## Further information
 
-<!--
-The goal of pencal is to ...
-
-## Installation
-
-You can install the development version of pencal from [GitHub](https://github.com/) with:
-
-``` r
-# install.packages("devtools")
-devtools::install_github("mirkosignorelli/pencal_devel")
-```
-
-## Example
-
-This is a basic example which shows you how to solve a common problem:
-
-``` r
-library(pencal)
-## basic example code
-```
--->
+More information on PRC can be found at the following pages:
+* [CRAN package page](https://cran.r-project.org/web/packages/pencal/index.html);
+* [my personal website](https://mirkosignorelli.github.io/r.html);
+* [vignette that illustrates how to use the R package's functions](https://cran.r-project.org/web/packages/pencal/vignettes/pencal-vignette.html).
