@@ -1,7 +1,7 @@
 #' Predictive performance of the PRC-LMM and PRC-MLPMM models
 #'
 #' This function computes the naive and optimism-corrected
-#' measures of performance (C index and time-dependent AUC) 
+#' measures of performance (C index, time-dependent AUC and Brier score) 
 #' for the PRC models proposed 
 #' in Signorelli et al. (2021). The optimism
 #' correction is computed based on a cluster bootstrap
@@ -29,10 +29,13 @@
 #' optimism-corrected estimates of the concordance (C) index;
 #' \item \code{tdAUC}: a data frame with the naive and
 #' optimism-corrected estimates of the time-dependent AUC
-#' at the desired time points.
+#' at the desired time points;
+#' \item \code{Brier}: a data frame with the naive and
+#' optimism-corrected estimates of the time-dependent Brier score
+#' at the desired time points;
 #' }
 #' 
-#' @import foreach doParallel glmnet survival survivalROC survcomp
+#' @import foreach doParallel glmnet survival survivalROC survcomp riskRegression
 #' @export
 #' 
 #' @author Mirko Signorelli
@@ -65,12 +68,14 @@
 #'                    
 #' # compute the performance measures
 #' perf = performance_prc(fitted_prclmm$step2, fitted_prclmm$step3, 
-#'           times = c(0.5, 1, 1.5, 2), n.cores = n.cores)
+#'           times = c(3, 3.5, 4), n.cores = n.cores)
 #' 
 #' # concordance index:
 #' perf$concordance
 #' # time-dependent AUC:
 #' perf$tdAUC
+#' # time-dependent Brier score:
+#' perf$Brier
 #' }
 
 performance_prc = function(step2, step3, times = 1,
@@ -78,12 +83,13 @@ performance_prc = function(step2, step3, times = 1,
   call = match.call()
   # load namespaces
   requireNamespace('survival')
-  requireNamespace('survcomp')
-  requireNamespace('survivalROC')
+  requireNamespace('survcomp') # C index
+  requireNamespace('survivalROC') # tdAUC
+  requireNamespace('riskRegression') # Brier score
   requireNamespace('glmnet')
   requireNamespace('foreach')
   # fix for 'no visible binding for global variable...' note
-  i = b = NULL
+  i = b = model = NULL
   
   ############################
   ##### CHECK THE INPUTS #####
@@ -93,6 +99,8 @@ performance_prc = function(step2, step3, times = 1,
   c.out = data.frame(n.boots = NA, naive = NA,
                     cb.correction = NA, cb.performance = NA)
   tdauc.out = data.frame(pred.time = times, naive = NA,
+                         cb.correction = NA, cb.performance = NA)
+  brier.out = data.frame(pred.time = times, naive = NA,
                          cb.correction = NA, cb.performance = NA)
   # checks on step 2 input
   temp = c('call', 'ranef.orig', 'n.boots')
@@ -110,6 +118,10 @@ performance_prc = function(step2, step3, times = 1,
   pcox.orig = step3$pcox.orig
   surv.data = step3$surv.data
   n = length(unique(surv.data$id))
+  if (max(times) >= max(surv.data$time)) {
+    stop(paste('Some of the prediction times are larger than the larger event time in the dataset.',
+                'Edit the times argument as appropriate'))
+  }
   # further checks
   if (step2$n.boots != step3$n.boots) {
     stop('step2$n.boots and step3$n.boots are different!')
@@ -168,10 +180,8 @@ performance_prc = function(step2, step3, times = 1,
   }
   
   # C index on the original dataset
-  relrisk.orig = predict(pcox.orig, 
-                         newx = X.orig, 
-                         s = 'lambda.min',
-                         type = 'response')  
+  relrisk.orig = predict(pcox.orig, newx = X.orig, 
+                         s = 'lambda.min', type = 'response') # exp(lin.pred)
   c.naive = concordance.index(x = relrisk.orig, 
                     surv.time = surv.data$time,
                     surv.event = surv.data$event, 
@@ -197,7 +207,33 @@ performance_prc = function(step2, step3, times = 1,
     out = ifelse(check, round(auc$AUC, 4), NA)
   }
   tdauc.out$naive = tdauc.naive
-
+  
+  # time-dependent Brier score
+  # convert glmnet Cox model to equivalent with survival package
+  df.orig = data.frame(time = surv.data$time,
+                       event = surv.data$event,
+                       linpred = linpred.orig,
+                       id = surv.data$id)
+  cox.survival = coxph(Surv(time = time, 
+                            event = event) ~ linpred, 
+                       data = df.orig, init = 1, 
+                       control = coxph.control(iter.max = 0))
+  # compute survival probabilities
+  temp.sfit = survfit(cox.survival, newdata = df.orig,
+                      se.fit = F, conf.int = F)
+  spred = as.data.frame(t(summary(temp.sfit, times = times)$surv))
+  # convert survival to failure probabilities and store them in a list
+  fail_prob = as.list(1 - spred)
+  # add names to the list
+  names(fail_prob) = times
+  # compute Brier Score and tdAUC
+  perf = Score(fail_prob, times = times, metrics = 'brier',
+               formula = Surv(time, event) ~ 1, data = step3$surv.data,
+               exact = FALSE, conf.int = FALSE, cens.model = "cox",
+               splitMethod = "none", B = 0, verbose = FALSE)
+  brier.naive = subset(perf$Brier$score, model == times)
+  brier.out$naive = round(brier.naive$Brier, 4)
+  
   ###############################
   ##### OPTIMISM CORRECTION #####
   ###############################
@@ -327,6 +363,6 @@ performance_prc = function(step2, step3, times = 1,
   names(tdauc.out) = c('pred.time', 'tdAUC.naive', 'cb.opt.corr', 'tdAUC.adjusted')
   
   out = list('call' = call, 'concordance' = c.out, 
-             'tdAUC' = tdauc.out)
+             'tdAUC' = tdauc.out, 'Brier' = brier.out)
   return(out)
 }
