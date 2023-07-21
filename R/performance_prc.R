@@ -35,7 +35,7 @@
 #' at the desired time points;
 #' }
 #' 
-#' @import foreach doParallel glmnet survival survivalROC survcomp riskRegression
+#' @import foreach doParallel glmnet survival
 #' @export
 #' 
 #' @author Mirko Signorelli
@@ -83,9 +83,6 @@ performance_prc = function(step2, step3, times = 1,
   call = match.call()
   # load namespaces
   requireNamespace('survival')
-  requireNamespace('survcomp') # C index
-  requireNamespace('survivalROC') # tdAUC
-  requireNamespace('riskRegression') # Brier score
   requireNamespace('glmnet')
   requireNamespace('foreach')
   # fix for 'no visible binding for global variable...' note
@@ -182,7 +179,7 @@ performance_prc = function(step2, step3, times = 1,
   # C index on the original dataset
   relrisk.orig = predict(pcox.orig, newx = X.orig, 
                          s = 'lambda.min', type = 'response') # exp(lin.pred)
-  c.naive = concordance.index(x = relrisk.orig, 
+  c.naive = survcomp::concordance.index(x = relrisk.orig, 
                     surv.time = surv.data$time,
                     surv.event = surv.data$event, 
                     method = "noether")
@@ -195,7 +192,7 @@ performance_prc = function(step2, step3, times = 1,
   linpred.orig = X.orig %*% pmle.orig
   tdauc.naive = foreach(i = 1:n.times, .combine = 'c',
        .packages = c('survivalROC')) %dopar% {
-    auc = try(survivalROC(Stime = surv.data$time, 
+    auc = try(survivalROC::survivalROC(Stime = surv.data$time, 
                           status = surv.data$event, 
                           marker = linpred.orig, 
                           entry = rep(0, n), 
@@ -227,7 +224,7 @@ performance_prc = function(step2, step3, times = 1,
   # add names to the list
   names(fail_prob) = times
   # compute Brier Score and tdAUC
-  perf = Score(fail_prob, times = times, metrics = 'brier',
+  perf = riskRegression::Score(fail_prob, times = times, metrics = 'brier',
                formula = Surv(time, event) ~ 1, data = step3$surv.data,
                exact = FALSE, conf.int = FALSE, cens.model = "cox",
                splitMethod = "none", B = 0, verbose = FALSE)
@@ -274,7 +271,7 @@ performance_prc = function(step2, step3, times = 1,
                               newx = X.train, 
                               s = 'lambda.min',
                               type = 'response')  
-      c.train = concordance.index(x = relrisk.train, 
+      c.train = survcomp::concordance.index(x = relrisk.train, 
                                   surv.time = surv.data.train$time,
                                   surv.event = surv.data.train$event, 
                                   method = "noether")
@@ -284,7 +281,7 @@ performance_prc = function(step2, step3, times = 1,
                               newx = X.valid, 
                               s = 'lambda.min',
                               type = 'response')  
-      c.valid = concordance.index(x = relrisk.valid, 
+      c.valid = survcomp::concordance.index(x = relrisk.valid, 
                                   surv.time = surv.data$time,
                                   surv.event = surv.data$event, 
                                   method = "noether")
@@ -293,7 +290,7 @@ performance_prc = function(step2, step3, times = 1,
       pmle.train = as.numeric(coef(pcox.boot[[b]], s = 'lambda.min'))
       linpred.train = X.train %*% pmle.train
       tdauc.train = foreach(i = 1:n.times, .combine = 'c') %do% {
-        auc = try(survivalROC(Stime = surv.data.train$time, 
+        auc = try(survivalROC::survivalROC(Stime = surv.data.train$time, 
                               status = surv.data.train$event, 
                               marker = linpred.train, 
                               entry = rep(0, n), 
@@ -310,7 +307,7 @@ performance_prc = function(step2, step3, times = 1,
       # important: the pmle comes from the model fitted on the training set
       linpred.valid = X.valid %*% pmle.train
       tdauc.valid = foreach(i = 1:n.times, .combine = 'c') %do% {
-        auc = try(survivalROC(Stime = surv.data$time, 
+        auc = try(survivalROC::survivalROC(Stime = surv.data$time, 
                               status = surv.data$event, 
                               marker = linpred.valid, 
                               entry = rep(0, n), 
