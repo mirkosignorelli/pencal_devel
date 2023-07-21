@@ -1,13 +1,11 @@
 citHeader("To cite ptmixed in publications use:")
 
-citEntry(
-  entry    = "Article",
-  title    = "Penalized regression calibration: A method for the prediction of survival outcomes using complex longitudinal and high-dimensional data",
-  author   = personList(as.person("M. Signorelli"),
-                   as.person("P. Spitali"),
-				   as.person("C. Al-Khalili Szigyarto"),
-				   as.person("The MARK-MD Consortium"),
-                   as.person("R. Tsonaka")),
+bibentry(
+  bibtype = "Article",
+  title = "Penalized regression calibration: A method for the prediction of survival outcomes using complex longitudinal and high-dimensional data",
+  author   = c(person("M. Signorelli"), person("P. Spitali"),
+				   person("C. Al-Khalili Szigyarto"),
+				   person("The MARK-MD Consortium"), person("R. Tsonaka")),
   journal  = "Statistics in Medicine",
   year     = "2021",
   volume = "40",
