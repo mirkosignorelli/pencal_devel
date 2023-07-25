@@ -17,6 +17,7 @@ Depends: R (>= 4.1.0)
 VignetteBuilder: knitr
 Encoding: UTF-8
 RoxygenNote: 7.2.2
+biocViews:
 Imports: doParallel, dplyr, foreach, glmnet, lcmm, magic, MASS, Matrix,
         methods, nlme, purrr, stats, survcomp, survival, survivalROC
 Suggests: knitr, ptmixed, rmarkdown, survminer
