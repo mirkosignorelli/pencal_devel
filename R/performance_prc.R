@@ -66,16 +66,15 @@
 #'    if (is.na(n.cores)) n.cores = 2
 #' }
 #'                    
-#' # compute the performance measures
-#' perf = performance_prc(fitted_prclmm$step2, fitted_prclmm$step3, 
-#'           times = c(3, 3.5, 4), n.cores = n.cores)
+#' # compute the time-dependent AUC
+#' perf = performance_prc(fitted_prclmm$step2, fitted_prclmm$step3,
+#'              metric = 'tdauc', times = c(3, 3.5, 4), n.cores = n.cores)
+#'  # use metric = 'brier' for the Brier score and metric = 'c' for the
+#'  # concordance index
 #' 
-#' # concordance index:
-#' perf$concordance
-#' # time-dependent AUC:
+#' # time-dependent AUC estimates:
+#' ls(perf)
 #' perf$tdAUC
-#' # time-dependent Brier score:
-#' perf$Brier
 #' }
 
 performance_prc = function(step2, step3, metric = c('tdauc', 'c', 'brier'), 
@@ -338,23 +337,24 @@ performance_prc = function(step2, step3, metric = c('tdauc', 'c', 'brier'),
       
       
       # define outputs of parallel computing
-      out = data.frame(stat = NA, repl = NA, stat = NA, times = NA, train = NA, valid = NA)
+      out = data.frame(stat = NA, repl = NA, times = NA, train = NA, valid = NA)
       pos = 1
       if (compute.c) {
         check1 = !inherits(c.train, 'try-error')
         ct = ifelse (check1, round(c.train$c.index, 4), NA)
         check2 = !inherits(c.valid, 'try-error')
         cv = ifelse (check2, round(c.valid$c.index, 4), NA)
-        out[pos, ] = c('C', b, NA, NA, ct, cv)
+        out[pos, ] = c('C', b, NA, ct, cv)
         pos = pos + 1
       }
       if (compute.tdauc) {
-        out[pos:(pos + n.times -1),] = cbind('tdAUC', b, NA, times, tdauc.train, tdauc.valid)
+        out[pos:(pos + n.times -1),] = cbind('tdAUC', b, times, tdauc.train, tdauc.valid)
         pos = pos + n.times
       }
       if (compute.brier) {
         # add here
       }
+      out[ , -1] = apply(out[ , -1], 2, as.numeric)
       out$optimism = out$valid - out$train
       return(out)
     }
@@ -398,15 +398,15 @@ performance_prc = function(step2, step3, metric = c('tdauc', 'c', 'brier'),
   out = list('call' = call)
   if (compute.c) {
     names(c.out) = c('n.boots', 'C.naive', 'cb.opt.corr', 'C.adjusted')
-    out = c(out, 'concordance' = c.out)
+    out$concordance = c.out
   }
   if (compute.tdauc) {
     names(tdauc.out) = c('pred.time', 'tdAUC.naive', 'cb.opt.corr', 'tdAUC.adjusted')
-    out = c(out, 'tdAUC' = tdauc.out)
+    out$tdAUC = tdauc.out
   }
   if (compute.brier) {
     names(tdauc.out) = c('pred.time', 'Brier.naive', 'cb.opt.corr', 'Brier.adjusted')
-    out = c(out, 'Brier' = brier.out)
+    out$Brier = brier.out
   }
   return(out)
 }
