@@ -78,8 +78,8 @@
 #' perf$Brier
 #' }
 
-performance_prc = function(step2, step3, times = 1,
-                              n.cores = 1, verbose = TRUE) {
+performance_prc = function(step2, step3, metric = c('tdauc', 'c', 'brier'), 
+                           times = c(2, 3), n.cores = 1, verbose = TRUE) {
   call = match.call()
   # load namespaces
   requireNamespace('survival')
@@ -93,6 +93,9 @@ performance_prc = function(step2, step3, times = 1,
   ############################
   if (!is.numeric(times)) stop('times should be numeric!')
   n.times = length(times)
+  compute.c = 'c' %in% metric
+  compute.tdauc = 'tdauc' %in% metric
+  compute.brier = 'brier' %in% metric
   c.out = data.frame(n.boots = NA, naive = NA,
                     cb.correction = NA, cb.performance = NA)
   tdauc.out = data.frame(pred.time = times, naive = NA,
@@ -177,59 +180,65 @@ performance_prc = function(step2, step3, times = 1,
   }
   
   # C index on the original dataset
-  relrisk.orig = predict(pcox.orig, newx = X.orig, 
-                         s = 'lambda.min', type = 'response') # exp(lin.pred)
-  c.naive = survcomp::concordance.index(x = relrisk.orig, 
-                    surv.time = surv.data$time,
-                    surv.event = surv.data$event, 
-                    method = "noether")
-  c.out$n.boots = n.boots
-  check = !inherits(c.naive, 'try-error')
-  c.out$naive = ifelse (check, round(c.naive$c.index, 4), NA)
+  if (compute.c) {
+    relrisk.orig = predict(pcox.orig, newx = X.orig, 
+                           s = 'lambda.min', type = 'response') # exp(lin.pred)
+    c.naive = survcomp::concordance.index(x = relrisk.orig, 
+                                          surv.time = surv.data$time,
+                                          surv.event = surv.data$event, 
+                                          method = "noether")
+    c.out$n.boots = n.boots
+    check = !inherits(c.naive, 'try-error')
+    c.out$naive = ifelse (check, round(c.naive$c.index, 4), NA)
+  }
   
   # time-dependent AUC
   pmle.orig = as.numeric(coef(pcox.orig, s = 'lambda.min'))
   linpred.orig = X.orig %*% pmle.orig
-  tdauc.naive = foreach(i = 1:n.times, .combine = 'c',
-       .packages = c('survivalROC')) %dopar% {
-    auc = try(survivalROC::survivalROC(Stime = surv.data$time, 
-                          status = surv.data$event, 
-                          marker = linpred.orig, 
-                          entry = rep(0, n), 
-                          predict.time = times[i], 
-                          cut.values = NULL,
-                          method = "NNE", 
-                          span = 0.25*n^(-0.20)))
-    check = !inherits(auc, 'try-error') & !is.nan(auc$AUC)
-    out = ifelse(check, round(auc$AUC, 4), NA)
+  if (compute.tdauc) {
+    tdauc.naive = foreach(i = 1:n.times, .combine = 'c',
+                          .packages = c('survivalROC')) %dopar% {
+                            auc = try(survivalROC::survivalROC(Stime = surv.data$time, 
+                                                               status = surv.data$event, 
+                                                               marker = linpred.orig, 
+                                                               entry = rep(0, n), 
+                                                               predict.time = times[i], 
+                                                               cut.values = NULL,
+                                                               method = "NNE", 
+                                                               span = 0.25*n^(-0.20)))
+                            check = !inherits(auc, 'try-error') & !is.nan(auc$AUC)
+                            out = ifelse(check, round(auc$AUC, 4), NA)
+                          }
+    tdauc.out$naive = tdauc.naive
   }
-  tdauc.out$naive = tdauc.naive
   
   # time-dependent Brier score
-  # convert glmnet Cox model to equivalent with survival package
-  df.orig = data.frame(time = surv.data$time,
-                       event = surv.data$event,
-                       linpred = linpred.orig,
-                       id = surv.data$id)
-  cox.survival = coxph(Surv(time = time, 
-                            event = event) ~ linpred, 
-                       data = df.orig, init = 1, 
-                       control = coxph.control(iter.max = 0))
-  # compute survival probabilities
-  temp.sfit = survfit(cox.survival, newdata = df.orig,
-                      se.fit = F, conf.int = F)
-  spred = as.data.frame(t(summary(temp.sfit, times = times)$surv))
-  # convert survival to failure probabilities and store them in a list
-  fail_prob = as.list(1 - spred)
-  # add names to the list
-  names(fail_prob) = times
-  # compute Brier Score and tdAUC
-  perf = riskRegression::Score(fail_prob, times = times, metrics = 'brier',
-               formula = Surv(time, event) ~ 1, data = step3$surv.data,
-               exact = FALSE, conf.int = FALSE, cens.model = "cox",
-               splitMethod = "none", B = 0, verbose = FALSE)
-  brier.naive = subset(perf$Brier$score, model == times)
-  brier.out$naive = round(brier.naive$Brier, 4)
+  if (compute.brier) {
+    # convert glmnet Cox model to equivalent with survival package
+    df.orig = data.frame(time = surv.data$time,
+                         event = surv.data$event,
+                         linpred = linpred.orig,
+                         id = surv.data$id)
+    cox.survival = coxph(Surv(time = time, 
+                              event = event) ~ linpred, 
+                         data = df.orig, init = 1, 
+                         control = coxph.control(iter.max = 0))
+    # compute survival probabilities
+    temp.sfit = survfit(cox.survival, newdata = df.orig,
+                        se.fit = F, conf.int = F)
+    spred = as.data.frame(t(summary(temp.sfit, times = times)$surv))
+    # convert survival to failure probabilities and store them in a list
+    fail_prob = as.list(1 - spred)
+    # add names to the list
+    names(fail_prob) = times
+    # compute Brier Score and tdAUC
+    perf = riskRegression::Score(fail_prob, times = times, metrics = 'brier',
+                                 formula = Surv(time, event) ~ 1, data = step3$surv.data,
+                                 exact = FALSE, conf.int = FALSE, cens.model = "cox",
+                                 splitMethod = "none", B = 0, verbose = FALSE)
+    brier.naive = subset(perf$Brier$score, model == times)
+    brier.out$naive = round(brier.naive$Brier, 4)
+  }
   
   ###############################
   ##### OPTIMISM CORRECTION #####
@@ -266,87 +275,116 @@ performance_prc = function(step2, step3, times = 1,
         }
       }
       
-      # C index on boot.train
-      relrisk.train = predict(pcox.boot[[b]], 
-                              newx = X.train, 
-                              s = 'lambda.min',
-                              type = 'response')  
-      c.train = survcomp::concordance.index(x = relrisk.train, 
-                                  surv.time = surv.data.train$time,
-                                  surv.event = surv.data.train$event, 
-                                  method = "noether")
-      
-      # C index on boot.valid
-      relrisk.valid = predict(pcox.boot[[b]], 
-                              newx = X.valid, 
-                              s = 'lambda.min',
-                              type = 'response')  
-      c.valid = survcomp::concordance.index(x = relrisk.valid, 
-                                  surv.time = surv.data$time,
-                                  surv.event = surv.data$event, 
-                                  method = "noether")
-      
-      # tdAUC on boot.train
+      # C index
+      if (compute.c) {
+        # C index on boot.train
+        relrisk.train = predict(pcox.boot[[b]], 
+                                newx = X.train, 
+                                s = 'lambda.min',
+                                type = 'response')  
+        c.train = survcomp::concordance.index(x = relrisk.train, 
+                                              surv.time = surv.data.train$time,
+                                              surv.event = surv.data.train$event, 
+                                              method = "noether")
+        # C index on boot.valid
+        relrisk.valid = predict(pcox.boot[[b]], 
+                                newx = X.valid, 
+                                s = 'lambda.min',
+                                type = 'response')  
+        c.valid = survcomp::concordance.index(x = relrisk.valid, 
+                                              surv.time = surv.data$time,
+                                              surv.event = surv.data$event, 
+                                              method = "noether")
+      }
+
+      #tdAUC
       pmle.train = as.numeric(coef(pcox.boot[[b]], s = 'lambda.min'))
       linpred.train = X.train %*% pmle.train
-      tdauc.train = foreach(i = 1:n.times, .combine = 'c') %do% {
-        auc = try(survivalROC::survivalROC(Stime = surv.data.train$time, 
-                              status = surv.data.train$event, 
-                              marker = linpred.train, 
-                              entry = rep(0, n), 
-                              predict.time = times[i], 
-                              cut.values = NULL,
-                              method = "NNE", 
-                              span = 0.25*n^(-0.20)))
-        check = !inherits(auc, 'try-error') & !is.nan(auc$AUC)
-        out = ifelse(check, round(auc$AUC, 4), NA)
+      linpred.valid = X.valid %*% pmle.train # important: the pmle comes from the model fitted on the training set
+
+      if (compute.tdauc) {
+        # tdAUC on boot.train
+        tdauc.train = foreach(i = 1:n.times, .combine = 'c') %do% {
+          auc = try(survivalROC::survivalROC(Stime = surv.data.train$time, 
+                                             status = surv.data.train$event, 
+                                             marker = linpred.train, 
+                                             entry = rep(0, n), 
+                                             predict.time = times[i], 
+                                             cut.values = NULL,
+                                             method = "NNE", 
+                                             span = 0.25*n^(-0.20)))
+          check = !inherits(auc, 'try-error') & !is.nan(auc$AUC)
+          out = ifelse(check, round(auc$AUC, 4), NA)
+        }
+        # tdAUC on boot.valid
+        tdauc.valid = foreach(i = 1:n.times, .combine = 'c') %do% {
+          auc = try(survivalROC::survivalROC(Stime = surv.data$time, 
+                                             status = surv.data$event, 
+                                             marker = linpred.valid, 
+                                             entry = rep(0, n), 
+                                             predict.time = times[i], 
+                                             cut.values = NULL,
+                                             method = "NNE", 
+                                             span = 0.25*n^(-0.20)))
+          check = !inherits(auc, 'try-error') & !is.nan(auc$AUC)
+          out = ifelse(check, round(auc$AUC, 4), NA)
+        }
       }
       
-      # tdAUC on boot.valid
-      pmle.train = as.numeric(coef(pcox.boot[[b]], s = 'lambda.min'))
-      # important: the pmle comes from the model fitted on the training set
-      linpred.valid = X.valid %*% pmle.train
-      tdauc.valid = foreach(i = 1:n.times, .combine = 'c') %do% {
-        auc = try(survivalROC::survivalROC(Stime = surv.data$time, 
-                              status = surv.data$event, 
-                              marker = linpred.valid, 
-                              entry = rep(0, n), 
-                              predict.time = times[i], 
-                              cut.values = NULL,
-                              method = "NNE", 
-                              span = 0.25*n^(-0.20)))
-        check = !inherits(auc, 'try-error') & !is.nan(auc$AUC)
-        out = ifelse(check, round(auc$AUC, 4), NA)
+      # Brier score
+      if (compute.brier) {
+        # add code here
       }
+      
       
       # define outputs of parallel computing
-      check1 = !inherits(c.train, 'try-error')
-      ct = ifelse (check1, round(c.train$c.index, 4), NA)
-      check2 = !inherits(c.valid, 'try-error')
-      cv = ifelse (check2, round(c.valid$c.index, 4), NA)
-      out = data.frame(repl = NA, stat = NA, times = NA, train = NA, valid = NA)
-      out[1, ] = c(b, NA, NA, ct, cv)
-      out[2:(n.times + 1),] = cbind(b, NA, times, tdauc.train, tdauc.valid)
-      out$stat = c('C', rep('tdAUC', n.times))
+      out = data.frame(stat = NA, repl = NA, stat = NA, times = NA, train = NA, valid = NA)
+      pos = 1
+      if (compute.c) {
+        check1 = !inherits(c.train, 'try-error')
+        ct = ifelse (check1, round(c.train$c.index, 4), NA)
+        check2 = !inherits(c.valid, 'try-error')
+        cv = ifelse (check2, round(c.valid$c.index, 4), NA)
+        out[pos, ] = c('C', b, NA, NA, ct, cv)
+        pos = pos + 1
+      }
+      if (compute.tdauc) {
+        out[pos:(pos + n.times -1),] = cbind('tdAUC', b, NA, times, tdauc.train, tdauc.valid)
+        pos = pos + n.times
+      }
+      if (compute.brier) {
+        # add here
+      }
       out$optimism = out$valid - out$train
       return(out)
     }
     
     # compute the optimism correction for the C index
-    c.vals = booty[booty$stat == 'C', ]
-    c.opt = mean(c.vals$optimism, na.rm = TRUE)
-    c.out$cb.correction = round(c.opt, 4)
-    c.out$cb.performance = c.out$naive + c.out$cb.correction
+    if (compute.c) {
+      c.vals = booty[booty$stat == 'C', ]
+      c.opt = mean(c.vals$optimism, na.rm = TRUE)
+      c.out$cb.correction = round(c.opt, 4)
+      c.out$cb.performance = c.out$naive + c.out$cb.correction
+    }
+    
     
     # compute the optimism correction for the tdAUC
-    tdauc.vals = booty[booty$stat == 'tdAUC', ]
-    tdauc.opt = foreach(i = 1:n.times, .combine = 'c') %do% {
-      temp = tdauc.vals[tdauc.vals$times == times[i], ]
-      out = mean(temp$optimism, na.rm = TRUE)
-      return(out)
+    if (compute.tdauc) {
+      tdauc.vals = booty[booty$stat == 'tdAUC', ]
+      tdauc.opt = foreach(i = 1:n.times, .combine = 'c') %do% {
+        temp = tdauc.vals[tdauc.vals$times == times[i], ]
+        out = mean(temp$optimism, na.rm = TRUE)
+        return(out)
+      }
+      tdauc.out$cb.correction = round(tdauc.opt, 4)
+      tdauc.out$cb.performance = tdauc.out$naive + tdauc.out$cb.correction
     }
-    tdauc.out$cb.correction = round(tdauc.opt, 4)
-    tdauc.out$cb.performance = tdauc.out$naive + tdauc.out$cb.correction
+    
+    # compute the optimism correction for the Brier score
+    if (compute.brier) {
+      # add here
+    }
+    
     # closing message
     if (verbose) {
       cat('Computation of the optimism correction: finished :)\n')
@@ -355,11 +393,20 @@ performance_prc = function(step2, step3, times = 1,
   
   # close the cluster
   parallel::stopCluster(cl)
-
-  names(c.out) = c('n.boots', 'C.naive', 'cb.opt.corr', 'C.adjusted')
-  names(tdauc.out) = c('pred.time', 'tdAUC.naive', 'cb.opt.corr', 'tdAUC.adjusted')
   
-  out = list('call' = call, 'concordance' = c.out, 
-             'tdAUC' = tdauc.out, 'Brier' = brier.out)
+  # create outputs
+  out = list('call' = call)
+  if (compute.c) {
+    names(c.out) = c('n.boots', 'C.naive', 'cb.opt.corr', 'C.adjusted')
+    out = c(out, 'concordance' = c.out)
+  }
+  if (compute.tdauc) {
+    names(tdauc.out) = c('pred.time', 'tdAUC.naive', 'cb.opt.corr', 'tdAUC.adjusted')
+    out = c(out, 'tdAUC' = tdauc.out)
+  }
+  if (compute.brier) {
+    names(tdauc.out) = c('pred.time', 'Brier.naive', 'cb.opt.corr', 'Brier.adjusted')
+    out = c(out, 'Brier' = brier.out)
+  }
   return(out)
 }
