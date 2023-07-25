@@ -332,9 +332,48 @@ performance_prc = function(step2, step3, metric = c('tdauc', 'c', 'brier'),
       
       # Brier score
       if (compute.brier) {
-        # add code here
+        # convert glmnet Cox model to equivalent with survival package
+        df.train = data.frame(time = surv.data.train$time,
+                             event = surv.data.train$event,
+                             linpred = linpred.train,
+                             id = surv.data.train$id)
+        cox.train = coxph(Surv(time = time, 
+                                  event = event) ~ linpred, 
+                             data = df.train, init = 1, 
+                             control = coxph.control(iter.max = 0))
+        ### Brier on boot.train
+        # compute survival probabilities
+        temp.sfit = survfit(cox.train, newdata = df.train,
+                            se.fit = F, conf.int = F)
+        spred = as.data.frame(t(summary(temp.sfit, times = times)$surv))
+        # convert survival to failure probabilities and store them in a list
+        fail_prob.train = as.list(1 - spred)
+        # add names to the list
+        names(fail_prob.train) = times
+        # compute Brier Score
+        perf.train = riskRegression::Score(fail_prob.train, times = times, metrics = 'brier',
+                                     formula = Surv(time, event) ~ 1, data = df.train,
+                                     exact = FALSE, conf.int = FALSE, cens.model = "cox",
+                                     splitMethod = "none", B = 0, verbose = FALSE)
+        perf.train = subset(perf.train$Brier$score, model == times)
+        brier.train = round(perf.train$Brier, 4)
+        ### Brier on boot.valid
+        # compute survival probabilities
+        temp.sfit = survfit(cox.train, newdata = df.orig,
+                            se.fit = F, conf.int = F)
+        spred = as.data.frame(t(summary(temp.sfit, times = times)$surv))
+        # convert survival to failure probabilities and store them in a list
+        fail_prob.valid = as.list(1 - spred)
+        # add names to the list
+        names(fail_prob.valid) = times
+        # compute Brier Score
+        perf.valid = riskRegression::Score(fail_prob.valid, times = times, metrics = 'brier',
+                                           formula = Surv(time, event) ~ 1, data = df.orig,
+                                           exact = FALSE, conf.int = FALSE, cens.model = "cox",
+                                           splitMethod = "none", B = 0, verbose = FALSE)
+        perf.valid = subset(perf.valid$Brier$score, model == times)
+        brier.valid = round(perf.valid$Brier, 4)
       }
-      
       
       # define outputs of parallel computing
       out = data.frame(stat = NA, repl = NA, times = NA, train = NA, valid = NA)
@@ -352,7 +391,7 @@ performance_prc = function(step2, step3, metric = c('tdauc', 'c', 'brier'),
         pos = pos + n.times
       }
       if (compute.brier) {
-        # add here
+        out[pos:(pos + n.times -1),] = cbind('Brier', b, times, brier.train, brier.valid)
       }
       out[ , -1] = apply(out[ , -1], 2, as.numeric)
       out$optimism = out$valid - out$train
@@ -366,7 +405,6 @@ performance_prc = function(step2, step3, metric = c('tdauc', 'c', 'brier'),
       c.out$cb.correction = round(c.opt, 4)
       c.out$cb.performance = c.out$naive + c.out$cb.correction
     }
-    
     
     # compute the optimism correction for the tdAUC
     if (compute.tdauc) {
@@ -382,7 +420,14 @@ performance_prc = function(step2, step3, metric = c('tdauc', 'c', 'brier'),
     
     # compute the optimism correction for the Brier score
     if (compute.brier) {
-      # add here
+      brier.vals = booty[booty$stat == 'Brier', ]
+      brier.opt = foreach(i = 1:n.times, .combine = 'c') %do% {
+        temp = brier.vals[brier.vals$times == times[i], ]
+        out = mean(temp$optimism, na.rm = TRUE)
+        return(out)
+      }
+      brier.out$cb.correction = round(brier.opt, 4)
+      brier.out$cb.performance = brier.out$naive + brier.out$cb.correction
     }
     
     # closing message
@@ -397,15 +442,15 @@ performance_prc = function(step2, step3, metric = c('tdauc', 'c', 'brier'),
   # create outputs
   out = list('call' = call)
   if (compute.c) {
-    names(c.out) = c('n.boots', 'C.naive', 'cb.opt.corr', 'C.adjusted')
+    names(c.out) = c('n.boots', 'C.naive', 'optimism.correction', 'C.adjusted')
     out$concordance = c.out
   }
   if (compute.tdauc) {
-    names(tdauc.out) = c('pred.time', 'tdAUC.naive', 'cb.opt.corr', 'tdAUC.adjusted')
+    names(tdauc.out) = c('pred.time', 'tdAUC.naive', 'optimism.correction', 'tdAUC.adjusted')
     out$tdAUC = tdauc.out
   }
   if (compute.brier) {
-    names(tdauc.out) = c('pred.time', 'Brier.naive', 'cb.opt.corr', 'Brier.adjusted')
+    names(brier.out) = c('pred.time', 'Brier.naive', 'optimism.correction', 'Brier.adjusted')
     out$Brier = brier.out
   }
   return(out)
