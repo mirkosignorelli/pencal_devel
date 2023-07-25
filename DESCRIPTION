@@ -31,7 +31,7 @@ Imports:
     nlme,
     purrr,
     stats,
-    survcomp (>= 3.17),
+    survcomp (>= 1.50.0),
     survival,
     survivalROC
 Suggests: knitr, ptmixed, rmarkdown, survminer
