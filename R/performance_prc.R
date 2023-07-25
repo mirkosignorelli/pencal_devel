@@ -1,8 +1,8 @@
 #' Predictive performance of the PRC-LMM and PRC-MLPMM models
 #'
 #' This function computes the naive and optimism-corrected
-#' measures of performance (C index, time-dependent AUC and Brier score) 
-#' for the PRC models proposed 
+#' measures of performance (C index, time-dependent AUC and time-dependent 
+#' Brier score) for the PRC models proposed 
 #' in Signorelli et al. (2021). The optimism
 #' correction is computed based on a cluster bootstrap
 #' optimism correction procedure (CBOCP)
@@ -12,6 +12,8 @@
 #' PRC)
 #' @param step3 the output of \code{\link{fit_prclmm}} or
 #' \code{\link{fit_prcmlpmm}} (step 3 of PRC)
+#' @param metric the desired performance measure(s). Options include: 'tdauc',
+#' 'c' and 'brier'
 #' @param times numeric vector with the time points at which
 #' to estimate the time-dependent AUC
 #' @param n.cores number of cores to use to parallelize part of
