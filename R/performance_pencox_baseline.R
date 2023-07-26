@@ -93,7 +93,7 @@ performance_pencox_baseline = function(fitted_pencox, metric = c('tdauc', 'c', '
   requireNamespace('glmnet')
   requireNamespace('foreach')
   # fix for 'no visible binding for global variable...' note
-  i = b = NULL
+  i = b = model = NULL
   
   ############################
   ##### CHECK THE INPUTS #####
