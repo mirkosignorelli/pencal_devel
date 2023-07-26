@@ -77,7 +77,7 @@
 #'                    
 #' # compute the performance measures
 #' perf = performance_pencox_baseline(fitted_pencox = base.pcox, 
-#'           metric = 'tdauc', times = c(3, 3.5, 4), n.cores = n.cores)
+#'           metric = 'tdauc', times = c(1, 1.5, 2), n.cores = n.cores)
 #'  # use metric = 'brier' for the Brier score and metric = 'c' for the
 #'  # concordance index
 #' 
