@@ -15,7 +15,7 @@
 #' @param metric the desired performance measure(s). Options include: 'tdauc',
 #' 'c' and 'brier'
 #' @param times numeric vector with the time points at which
-#' to estimate the time-dependent AUC
+#' to estimate the time-dependent AUC and time-dependent Brier score
 #' @param n.cores number of cores to use to parallelize part of
 #' the computations. If \code{ncores = 1} (default), 
 #' no parallelization is done. Pro tip: you can use 
@@ -97,8 +97,7 @@ performance_prc = function(step2, step3, metric = c('tdauc', 'c', 'brier'),
   compute.c = 'c' %in% metric
   compute.tdauc = 'tdauc' %in% metric
   compute.brier = 'brier' %in% metric
-  c.out = data.frame(n.boots = NA, naive = NA,
-                    cb.correction = NA, cb.performance = NA)
+  c.out = data.frame(naive = NA, cb.correction = NA, cb.performance = NA)
   tdauc.out = data.frame(pred.time = times, naive = NA,
                          cb.correction = NA, cb.performance = NA)
   brier.out = data.frame(pred.time = times, naive = NA,
@@ -188,7 +187,6 @@ performance_prc = function(step2, step3, metric = c('tdauc', 'c', 'brier'),
                                           surv.time = surv.data$time,
                                           surv.event = surv.data$event, 
                                           method = "noether")
-    c.out$n.boots = n.boots
     check = !inherits(c.naive, 'try-error')
     c.out$naive = ifelse (check, round(c.naive$c.index, 4), NA)
   }
@@ -234,7 +232,7 @@ performance_prc = function(step2, step3, metric = c('tdauc', 'c', 'brier'),
     names(fail_prob) = times
     # compute Brier Score and tdAUC
     perf = riskRegression::Score(fail_prob, times = times, metrics = 'brier',
-                                 formula = Surv(time, event) ~ 1, data = step3$surv.data,
+                                 formula = Surv(time, event) ~ 1, data = surv.data,
                                  exact = FALSE, conf.int = FALSE, cens.model = "cox",
                                  splitMethod = "none", B = 0, verbose = FALSE)
     brier.naive = subset(perf$Brier$score, model == times)
