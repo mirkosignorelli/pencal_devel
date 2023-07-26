@@ -442,7 +442,7 @@ performance_prc = function(step2, step3, metric = c('tdauc', 'c', 'brier'),
   # create outputs
   out = list('call' = call)
   if (compute.c) {
-    names(c.out) = c('n.boots', 'C.naive', 'optimism.correction', 'C.adjusted')
+    names(c.out) = c('C.naive', 'optimism.correction', 'C.adjusted')
     out$concordance = c.out
   }
   if (compute.tdauc) {
