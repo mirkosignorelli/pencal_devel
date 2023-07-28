@@ -4,9 +4,18 @@
 \alias{simulate_prclmm_data}
 \title{Simulate data that can be used to fit the PRC-LMM model}
 \usage{
-simulate_prclmm_data(n = 100, p = 10, p.relev = 4, lambda = 0.2,
-  nu = 2, seed = 1, base.age.range = c(3, 5), tau.age = 0.2,
-  cens.range = c(0.5, 10), t.values = c(0, 0.5, 1, 2))
+simulate_prclmm_data(
+  n = 100,
+  p = 10,
+  p.relev = 4,
+  lambda = 0.2,
+  nu = 2,
+  seed = 1,
+  base.age.range = c(3, 5),
+  tau.age = 0.2,
+  cens.range = c(0.5, 10),
+  t.values = c(0, 0.5, 1, 2)
+)
 }
 \arguments{
 \item{n}{sample size}

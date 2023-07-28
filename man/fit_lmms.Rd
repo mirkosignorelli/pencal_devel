@@ -4,9 +4,20 @@
 \alias{fit_lmms}
 \title{Step 1 of PRC-LMM (estimation of the linear mixed models)}
 \usage{
-fit_lmms(y.names, fixefs, ranefs, long.data, surv.data, t.from.base,
-  n.boots = 0, n.cores = 1, max.ymissing = 0.2, verbose = TRUE,
-  seed = 123, control = list(opt = "optim", niterEM = 500, maxIter = 500))
+fit_lmms(
+  y.names,
+  fixefs,
+  ranefs,
+  long.data,
+  surv.data,
+  t.from.base,
+  n.boots = 0,
+  n.cores = 1,
+  max.ymissing = 0.2,
+  verbose = TRUE,
+  seed = 123,
+  control = list(opt = "optim", niterEM = 500, maxIter = 500)
+)
 }
 \arguments{
 \item{y.names}{character vector with the names of the
