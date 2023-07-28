@@ -4,7 +4,14 @@
 \alias{performance_prc}
 \title{Predictive performance of the PRC-LMM and PRC-MLPMM models}
 \usage{
-performance_prc(step2, step3, times = 1, n.cores = 1, verbose = TRUE)
+performance_prc(
+  step2,
+  step3,
+  metric = c("tdauc", "c", "brier"),
+  times = c(2, 3),
+  n.cores = 1,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{step2}{the output of either \code{\link{summarize_lmms}} 
@@ -14,8 +21,11 @@ PRC)}
 \item{step3}{the output of \code{\link{fit_prclmm}} or
 \code{\link{fit_prcmlpmm}} (step 3 of PRC)}
 
+\item{metric}{the desired performance measure(s). Options include: 'tdauc',
+'c' and 'brier'}
+
 \item{times}{numeric vector with the time points at which
-to estimate the time-dependent AUC}
+to estimate the time-dependent AUC and time-dependent Brier score}
 
 \item{n.cores}{number of cores to use to parallelize part of
 the computations. If \code{ncores = 1} (default), 
@@ -34,13 +44,16 @@ A list containing the following objects:
 optimism-corrected estimates of the concordance (C) index;
 \item \code{tdAUC}: a data frame with the naive and
 optimism-corrected estimates of the time-dependent AUC
-at the desired time points.
+at the desired time points;
+\item \code{Brier}: a data frame with the naive and
+optimism-corrected estimates of the time-dependent Brier score
+at the desired time points;
 }
 }
 \description{
 This function computes the naive and optimism-corrected
-measures of performance (C index and time-dependent AUC) 
-for the PRC models proposed 
+measures of performance (C index, time-dependent AUC and time-dependent 
+Brier score) for the PRC models proposed 
 in Signorelli et al. (2021). The optimism
 correction is computed based on a cluster bootstrap
 optimism correction procedure (CBOCP)
@@ -58,13 +71,14 @@ if (more.cores) {
    if (is.na(n.cores)) n.cores = 2
 }
                    
-# compute the performance measures
-perf = performance_prc(fitted_prclmm$step2, fitted_prclmm$step3, 
-          times = c(0.5, 1, 1.5, 2), n.cores = n.cores)
+# compute the time-dependent AUC
+perf = performance_prc(fitted_prclmm$step2, fitted_prclmm$step3,
+             metric = 'tdauc', times = c(3, 3.5, 4), n.cores = n.cores)
+ # use metric = 'brier' for the Brier score and metric = 'c' for the
+ # concordance index
 
-# concordance index:
-perf$concordance
-# time-dependent AUC:
+# time-dependent AUC estimates:
+ls(perf)
 perf$tdAUC
 }
 }

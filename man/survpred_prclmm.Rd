@@ -5,8 +5,15 @@
 \title{Compute the predicted survival probabilities obtained
 from the PRC models}
 \usage{
-survpred_prclmm(step1, step2, step3, times = 1, new.longdata = NULL,
-  new.basecovs = NULL, keep.ranef = FALSE)
+survpred_prclmm(
+  step1,
+  step2,
+  step3,
+  times = 1,
+  new.longdata = NULL,
+  new.basecovs = NULL,
+  keep.ranef = FALSE
+)
 }
 \arguments{
 \item{step1}{the output of \code{\link{fit_lmms}} (step 1

@@ -5,14 +5,22 @@
 \title{Predictive performance of the penalized Cox model
 with baseline covariates}
 \usage{
-performance_pencox_baseline(fitted_pencox, times = 1, n.cores = 1,
-  verbose = TRUE)
+performance_pencox_baseline(
+  fitted_pencox,
+  metric = c("tdauc", "c", "brier"),
+  times = c(2, 3),
+  n.cores = 1,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{fitted_pencox}{the output of \code{\link{pencox_baseline}}}
 
+\item{metric}{the desired performance measure(s). Options include: 'tdauc',
+'c' and 'brier'}
+
 \item{times}{numeric vector with the time points at which
-to estimate the time-dependent AUC}
+to estimate the time-dependent AUC and time-dependent Brier score}
 
 \item{n.cores}{number of cores to use to parallelize part of
 the computations. If \code{ncores = 1} (default), 
@@ -74,11 +82,12 @@ ls(base.pcox)
                    
 # compute the performance measures
 perf = performance_pencox_baseline(fitted_pencox = base.pcox, 
-          times = c(0.5, 1, 1.5, 2), n.cores = n.cores)
+          metric = 'tdauc', times = c(1, 1.5, 2), n.cores = n.cores)
+ # use metric = 'brier' for the Brier score and metric = 'c' for the
+ # concordance index
 
-# concordance index:
-perf$concordance
-# time-dependent AUC:
+# time-dependent AUC estimates:
+ls(perf)
 perf$tdAUC
 }
 \references{

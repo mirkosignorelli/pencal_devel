@@ -4,9 +4,18 @@
 \alias{fit_prclmm}
 \title{Step 3 of PRC-LMM (estimation of the penalized Cox model(s))}
 \usage{
-fit_prclmm(object, surv.data, baseline.covs = NULL, penalty = "ridge",
-  standardize = TRUE, pfac.base.covs = 0, n.alpha.elnet = 11,
-  n.folds.elnet = 5, n.cores = 1, verbose = TRUE)
+fit_prclmm(
+  object,
+  surv.data,
+  baseline.covs = NULL,
+  penalty = "ridge",
+  standardize = TRUE,
+  pfac.base.covs = 0,
+  n.alpha.elnet = 11,
+  n.folds.elnet = 5,
+  n.cores = 1,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{object}{the output of step 2 of the PRC-LMM procedure, 

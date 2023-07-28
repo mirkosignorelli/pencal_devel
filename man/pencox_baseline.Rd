@@ -4,9 +4,18 @@
 \alias{pencox_baseline}
 \title{Estimation of a penalized Cox model with baseline covariates onlu}
 \usage{
-pencox_baseline(data, formula, penalty = "ridge", standardize = TRUE,
-  penalty.factor = 1, n.alpha.elnet = 11, n.folds.elnet = 5,
-  n.boots = 0, n.cores = 1, verbose = TRUE)
+pencox_baseline(
+  data,
+  formula,
+  penalty = "ridge",
+  standardize = TRUE,
+  penalty.factor = 1,
+  n.alpha.elnet = 11,
+  n.folds.elnet = 5,
+  n.boots = 0,
+  n.cores = 1,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{data}{a data frame with one row for each subject.It

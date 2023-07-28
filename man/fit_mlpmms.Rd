@@ -4,10 +4,22 @@
 \alias{fit_mlpmms}
 \title{Step 1 of PRC-MLPMM (estimation of the linear mixed models)}
 \usage{
-fit_mlpmms(y.names, fixefs, ranef.time, randint.items = TRUE, long.data,
-  surv.data, t.from.base, n.boots = 0, n.cores = 1, verbose = TRUE,
-  seed = 123, maxiter = 100, conv = rep(0.001, 3),
-  lcmm.warnings = FALSE)
+fit_mlpmms(
+  y.names,
+  fixefs,
+  ranef.time,
+  randint.items = TRUE,
+  long.data,
+  surv.data,
+  t.from.base,
+  n.boots = 0,
+  n.cores = 1,
+  verbose = TRUE,
+  seed = 123,
+  maxiter = 100,
+  conv = rep(0.001, 3),
+  lcmm.warnings = FALSE
+)
 }
 \arguments{
 \item{y.names}{a list with the names of the

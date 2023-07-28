@@ -16,7 +16,7 @@ URL: https://mirkosignorelli.github.io/r
 Depends: R (>= 4.1.0)
 VignetteBuilder: knitr
 Encoding: UTF-8
-RoxygenNote: 7.2.2
+RoxygenNote: 7.2.3
 biocViews:
 Imports: 
     doParallel,
