@@ -61,6 +61,8 @@ knitr::include_graphics("PRC_diagram.jpg")
 
 Even though `pencal` is available from `CRAN`, it includes a `Bioconductor` packages among its dependencies (`survcomp`). This can create problems in the installation phase, since the usual `install.packages( )` only fetches `CRAN` dependencies, and not `Bioconductor` ones. Below I explain two alternative ways to successfully install `pencal`.
 
+<!--
+NB: the commented part is redundant now that the biocViews: fix is added
 ### Option 1: install Bioconductor dependencies directly
 
 The `R` package `pencal` and all of its dependencies can be installed all in one go using:
@@ -73,6 +75,7 @@ BiocManager::install('pencal')
 
 ### Option 2: install Bioconductor dependencies manually
 
+
 Alternatively, you may choose to first install `survcomp` using `BiocManager::install( )`, and then to install `pencal` and all of its CRAN dependencies using `install.packages( )`. To do so, you need to use
 
 ```{r, eval=FALSE, echo=TRUE, results='asis'}
@@ -83,10 +86,17 @@ BiocManager::install('survcomp')
 # step 2: install pencal and CRAN dependencies
 install.packages('pencal')
 ```
+-->
 
-## Loading the package
+## Installing and loading the package
 
-After having installed `pencal`, you can load the package with
+To use `pencal`, you first need to install it from `CRAN` using
+
+```{r, eval=FALSE, echo=TRUE, results='asis'}
+install.packages('pencal')
+```
+
+Then, you can load the package with
 
 ```{r, eval=TRUE, echo=TRUE, results='asis'}
 library(pencal)
@@ -118,9 +128,9 @@ Computation of the predicted survival probabilities from the PRC-LMM and PRC-MLP
 
 ## Predictive performance and cluster bootstrap optimism correction procedure (CBOCP)
 
-The evaluation of the predicted performance of the estimated PRC-LMM and PRC-MLPMM can be done using the function `performance_prc`, which returns the naive and optimism-corrected estimates of the C index and of the time-dependent AUC. The optimism-corrected estimates are based on the CBOCP proposed in [Signorelli et al. (2021)](https://doi.org/10.1002/sim.9178).
+The evaluation of the predicted performance of the estimated PRC-LMM and PRC-MLPMM can be done using the function `performance_prc`, which returns the naive and optimism-corrected estimates of the time-dependent AUC (tdAUC), C index and time-dependent Brier score. The optimism-corrected estimates are based on the CBOCP proposed in [Signorelli et al. (2021)](https://doi.org/10.1002/sim.9178).
 
-A technical note on how the CBOCP is implemented in `pencal`: most of the computations required by the CBOCP are performed by `fit_lmms`, `summarize_lmms` and `fit_prclmm` for the PRC-LMM, and by `fit_mlpmms`, `summarize_mlpmms` and `fit_prcmlpmm` for the PRC-MLPMM. Such computations may be time-consuming, and for this reason these functions are designed to work with parallel computing (this can be easily done by setting the argument `n.cores` to a value $> 1$). The last step of the CBOCP is performed by the function `performance_prc`, which aggregates the outputs of the previous functions and computes the naive and optimism-corrected estimates of the C index and of the time-dependent AUC.
+A technical note on how the CBOCP is implemented in `pencal`: most of the computations required by the CBOCP are performed by `fit_lmms`, `summarize_lmms` and `fit_prclmm` for the PRC-LMM, and by `fit_mlpmms`, `summarize_mlpmms` and `fit_prcmlpmm` for the PRC-MLPMM. Such computations may be time-consuming, and for this reason these functions are designed to work with parallel computing (this can be easily done by setting the argument `n.cores` to a value $> 1$). The last step of the CBOCP is performed by the function `performance_prc`, which aggregates the outputs of the previous functions and computes the naive and optimism-corrected estimates of the tdAUC, C index and Brier score.
 
 **Important note**: if you just want to estimate the PRC model, and you do not wish to compute the CBOCP, simply set `n.boots = 0` as argument of `fit_lmms`. If, instead, you do want to compute the CBOCP, set `n.boots` equal to the desired number of bootstrap samples (e.g., 100).
 
@@ -313,27 +323,29 @@ head(preds$predicted_survival)
 
 To accurately quantify the predicted performance of the fitted PRC model, we need to recur to some form of **internal validation** strategy (e.g., bootstrap, cross-validation, etc...).
 
-In `pencal` the internal validation is performed through a Cluster Bootstrap Optimism Correction Procedure (CBOCP) that allows to compute **optimism-corrected estimates of the concordance (C) index and of the time-dependent AUC**.
+In `pencal` the internal validation is performed through a Cluster Bootstrap Optimism Correction Procedure (CBOCP) that allows to compute **optimism-corrected estimates of the  time-dependent AUC (tdAUC), C index and time-dependent Brier score**.
 
 Most of the steps that the CBOCP requires are directly computed by the functions `fit_lmms`, `summarize_lmms` and  `fit_prclmm` whenever the argument `n.boots` of `fit_lmms` is set equal to an integer > 0 (in other words: most of the computations needed for the CBOCP have already been performed in the code chunks executed above, so we are almost done!).
 
 To gather the results of the CBOCP we can use the function `performance_prc`:
 
 ```{r cbocp, cache = F}
-cbocp = performance_prc(step2, step3, times = c(1, 2, 3), 
-                   n.cores = n.cores)
-# C index estimates:
-cbocp$concordance
+cbocp = performance_prc(step2, step3, metric = c('tdauc', 'c', 'brier'),
+                        times = 1:3, n.cores = n.cores)
+ls(cbocp)
 # time-dependent AUC estimates:
 cbocp$tdAUC
+# C index estimates:
+cbocp$concordance
+# Brier score estimates:
+cbocp$Brier
 ```
 
-From the results above we can see that:
+From the results above we can see that, for example:
 
-* the naive C index is estimated = 0.786, and the optimism-corrected C index is estimated = 0.747;
-* the naive tdAUC for predictions at 1 year from baseline is estimated = 0.887, and the optimism-corrected estimate is = 0.850;
 * the naive tdAUC for predictions at 2 years from baseline is estimated = 0.834, and the optimism-corrected estimate is = 0.796;
-* the naive tdAUC for predictions at 3 years from baseline is estimated = 0.830, and the optimism-corrected estimate is = 0.770.
+* the naive C index is estimated = 0.786, and the optimism-corrected C index is estimated = 0.747;
+* the naive Brier score for predictions at 1 year from baseline is estimated = 0.146, and the optimism-corrected estimate is = 0.211.
 
 # Further details and material
 
