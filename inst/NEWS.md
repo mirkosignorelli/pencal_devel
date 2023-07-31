@@ -14,22 +14,47 @@ package - in other words, within a section you will find all those
 package versions a.b.x where a and b are fixed whereas x = 1, 2, 3, …
 Each subsection corresponds to a specific package version.
 
+# 2.0.x
+
+## 2.0.1
+
+-   Released:
+-   Added computation of Brier score to `performance_prc` and
+    `performance_pencox_baseline`
+-   Added `metric` argument to `performance_prc` and
+    `performance_pencox_baseline`
+-   Updated documentation
+-   Refitted `fit_prclmm` and `fit_prcmlpmm` objects so they are up to
+    date with classes and methods
+-   Updated `CITATION` file using `bibentry( )` to address CRAN note
+-   Updated `DESCRIPTION` file (added `biocViews:` to fix `survcomp`
+    installation problems)
+-   Added `LICENSE` file
+
 # 1.3.x
 
 ## pencal 1.3.2
 
-- Released: December 2022
-- Updated vignettes, including mention of new functionalities introduced in version 1.3.1
-- Parallelized an extra computation in `summarize_lmms` and `summarize_mlpmms` (this should yield computing time gains with thousands of longitudinal predictors)
+-   Released: December 2022
+-   Updated vignettes, including mention of new functionalities
+    introduced in version 1.3.1
+-   Parallelized an extra computation in `summarize_lmms` and
+    `summarize_mlpmms` (this should yield computing time gains with
+    thousands of longitudinal predictors)
 
 ## pencal 1.3.1
 
-- Released: December 2022
-- Added classes (`prclmm` and `prcmlpmm`) and corresponding methods (`print` and `summary`) to the package
-- Added the functions `getlmm` and `getmlpmm`
-- Added `control` argument to `fit_lmms`. This argument is used to pass control parameters to `nlme::lme` (see `?nlme::lmeControl`). See `?fit_lmms` for the defaults
-- `simulate_prclmm_data` now outputs an extra element (`theta.true`) containing the true parameters used to generate the data
-- Added `eval( )` when creating `baseline.covs` within `survpred_prclmm` and `survpred_prcmlpmm`
+-   Released: December 2022
+-   Added classes (`prclmm` and `prcmlpmm`) and corresponding methods
+    (`print` and `summary`) to the package
+-   Added the functions `getlmm` and `getmlpmm`
+-   Added `control` argument to `fit_lmms`. This argument is used to
+    pass control parameters to `nlme::lme` (see `?nlme::lmeControl`).
+    See `?fit_lmms` for the defaults
+-   `simulate_prclmm_data` now outputs an extra element (`theta.true`)
+    containing the true parameters used to generate the data
+-   Added `eval( )` when creating `baseline.covs` within
+    `survpred_prclmm` and `survpred_prcmlpmm`
 
 # 1.2.x
 
