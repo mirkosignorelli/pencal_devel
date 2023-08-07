@@ -16,16 +16,19 @@ Each subsection corresponds to a specific package version.
 
 # 2.0.x
 
-## 2.0.1
+## pencal 2.0.1
 
--   Released:
+-   Released: August 2023
 -   Added computation of Brier score to `performance_prc` and
     `performance_pencox_baseline`
 -   Added `metric` argument to `performance_prc` and
     `performance_pencox_baseline`
--   Updated documentation
 -   Refitted `fit_prclmm` and `fit_prcmlpmm` objects so they are up to
     date with classes and methods
+-   Renamed `pencox_baseline` to `pencox` and
+    `performance_pencox_baseline` to `performance_pencox`
+-   Added `pbc2data` and corresponding documentation
+-   Updated documentation and vignettes
 -   Updated `CITATION` file using `bibentry( )` to address CRAN note
 -   Updated `DESCRIPTION` file (added `biocViews:` to fix `survcomp`
     installation problems)

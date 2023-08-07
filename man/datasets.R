@@ -24,6 +24,7 @@
 #' }
 #' 
 #' @author Mirko Signorelli
+#' @seealso \code{\link{performance_prc}}
 #' 
 #' @examples 
 #' data(pbc2data)
