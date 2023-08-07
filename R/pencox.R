@@ -1,7 +1,7 @@
-#' Estimation of a penalized Cox model with baseline covariates onlu
+#' Estimation of a penalized Cox model with time-independent covariates
 #'
 #' This function estimates a penalized Cox model where only
-#' baseline covariates are included as predictors, and then
+#' time-independent covariates are included as predictors, and then
 #' computes a bootstrap optimism correction procedure that 
 #' is used to validate the predictive performance of the model
 #' 
@@ -94,12 +94,12 @@
 #' 
 #' form = as.formula(~ baseline.age + marker1 + marker2
 #'                      + marker3 + marker4)
-#' base.pcox = pencox_baseline(data = df, 
+#' base.pcox = pencox(data = df, 
 #'               formula = form, 
 #'               n.boots = n.boots, n.cores = n.cores) 
 #' ls(base.pcox)
 
-pencox_baseline = function(data, formula,
+pencox = function(data, formula,
                       penalty = 'ridge', standardize = TRUE,
                       penalty.factor = 1,
                       n.alpha.elnet = 11, n.folds.elnet = 5,

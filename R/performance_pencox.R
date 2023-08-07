@@ -1,14 +1,13 @@
 #' Predictive performance of the penalized Cox model
-#' with baseline covariates
+#' with time-independent covariates
 #'
 #' This function computes the naive and optimism-corrected
-#' measures of performance (C index and time-dependent AUC) 
-#' for a penalized Cox model with baseline covariates as
-#' presented in Signorelli et al. (2021). 
-#' The optimism correction is a bootstrap
-#' optimism correction procedure
+#' measures of performance (C index, time-dependent AUC and time-dependent 
+#' Brier score) for a penalized Cox model with time-independent covariates. 
+#' The optimism correction is computed based on a cluster bootstrap
+#' optimism correction procedure (CBOCP, Signorelli et al., 2021)
 #' 
-#' @param fitted_pencox the output of \code{\link{pencox_baseline}}
+#' @param fitted_pencox the output of \code{\link{pencox}}
 #' @param metric the desired performance measure(s). Options include: 'tdauc',
 #' 'c' and 'brier'
 #' @param times numeric vector with the time points at which
@@ -43,7 +42,7 @@
 #' high-dimensional data. Statistics in Medicine, 40 (27), 6178-6196.
 #' DOI: 10.1002/sim.9178
 #' 
-#' @seealso \code{\link{pencox_baseline}}
+#' @seealso \code{\link{pencox}}
 #' 
 #' @examples
 #' # generate example data
@@ -70,13 +69,13 @@
 #' 
 #' form = as.formula(~ baseline.age + marker1 + marker2
 #'                      + marker3 + marker4)
-#' base.pcox = pencox_baseline(data = df, 
+#' base.pcox = pencox(data = df, 
 #'               formula = form, 
 #'               n.boots = n.boots, n.cores = n.cores) 
 #' ls(base.pcox)
 #'                    
 #' # compute the performance measures
-#' perf = performance_pencox_baseline(fitted_pencox = base.pcox, 
+#' perf = performance_pencox(fitted_pencox = base.pcox, 
 #'           metric = 'tdauc', times = c(1, 1.5, 2), n.cores = n.cores)
 #'  # use metric = 'brier' for the Brier score and metric = 'c' for the
 #'  # concordance index
@@ -85,7 +84,7 @@
 #' ls(perf)
 #' perf$tdAUC
 
-performance_pencox_baseline = function(fitted_pencox, metric = c('tdauc', 'c', 'brier'), 
+performance_pencox = function(fitted_pencox, metric = c('tdauc', 'c', 'brier'), 
                                   times = c(2, 3), n.cores = 1, verbose = TRUE) {
   call = match.call()
   # load namespaces
