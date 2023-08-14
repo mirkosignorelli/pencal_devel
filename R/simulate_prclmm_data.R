@@ -64,8 +64,9 @@
 #' 
 #' @examples
 #' # generate example data
-#' simdata = simulate_prclmm_data(n = 20, p = 10, 
-#'                         p.relev = 4, seed = 1)
+#' simdata = simulate_prclmm_data(n = 20, p = 10, p.relev = 4,
+#'                t.values = c(0, 0.5, 1, 2), landmark = max(t.values), 
+#'                seed = 19931101)
 #' # view the longitudinal markers:
 #' if(requireNamespace("ptmixed")) {
 #'   ptmixed::make.spaghetti(x = age, y = marker1, 
