@@ -61,8 +61,6 @@ knitr::include_graphics("PRC_diagram.jpg")
 
 Even though `pencal` is available from `CRAN`, it includes a `Bioconductor` packages among its dependencies (`survcomp`). This can create problems in the installation phase, since the usual `install.packages( )` only fetches `CRAN` dependencies, and not `Bioconductor` ones. Below I explain two alternative ways to successfully install `pencal`.
 
-<!--
-NB: the commented part is redundant now that the biocViews: fix is added
 ### Option 1: install Bioconductor dependencies directly
 
 The `R` package `pencal` and all of its dependencies can be installed all in one go using:
@@ -73,8 +71,13 @@ if (!require("BiocManager", quietly = TRUE))
 BiocManager::install('pencal')
 ```
 
-### Option 2: install Bioconductor dependencies manually
+Then, you can load the package with
 
+```{r, eval=TRUE, echo=TRUE, results='asis'}
+library(pencal)
+```
+
+### Option 2: install Bioconductor dependencies manually
 
 Alternatively, you may choose to first install `survcomp` using `BiocManager::install( )`, and then to install `pencal` and all of its CRAN dependencies using `install.packages( )`. To do so, you need to use
 
@@ -86,8 +89,14 @@ BiocManager::install('survcomp')
 # step 2: install pencal and CRAN dependencies
 install.packages('pencal')
 ```
--->
 
+Then, you can load the package with
+
+```{r, eval=TRUE, echo=TRUE, results='asis'}
+library(pencal)
+```
+
+<!--
 ## Installing and loading the package
 
 To use `pencal`, you first need to install it from `CRAN` using
@@ -101,6 +110,7 @@ Then, you can load the package with
 ```{r, eval=TRUE, echo=TRUE, results='asis'}
 library(pencal)
 ```
+-->
 
 # Overview of the functionalities of `pencal`
 
@@ -145,14 +155,15 @@ In addition to the functions mentioned above, `pencal` comprises also 3 function
 
 # A step by step example
 
-To illustrate how `pencal` works, let us simulate an example dataset from the PRC-LMM model. Hereafter we generate a dataset that comprises $n = 100$ subjects, $p = 10$ longitudinal biomarkers that are measured at $t = 0, 0.2, 0.5, 1, 1.5, 2$ years from baseline, and a survival outcome that is associated with 5 (`p.relev`) of the 10 biomarkers:
+To illustrate how `pencal` works, let us simulate an example dataset from the PRC-LMM model. Hereafter we generate a dataset that comprises $n = 100$ subjects, $p = 10$ longitudinal biomarkers that are measured at $t = 0, 0.2, 0.5, 1, 1.5, 2$ years from baseline, and a survival outcome that is associated with 5 (`p.relev`) of the 10 biomarkers. We assume that all individuals start experiencing the event starting from the end of the observation window, i.e. after the landmark time 2:
 
 ```{r simulate, cache = F}
 set.seed(1234)
 p = 10
 simdata = simulate_prclmm_data(n = 100, p = p, p.relev = 5, 
-                               lambda = 0.2, nu = 1.5,
-                               seed = 1234, t.values = c(0, 0.2, 0.5, 1, 1.5, 2))
+                               t.values = c(0, 0.2, 0.5, 1, 1.5, 2),
+                               landmark = 2, seed = 1234,
+                               lambda = 0.2, nu = 1.5)
 ls(simdata)
 ```
 
@@ -177,7 +188,6 @@ if ('ptmixed' %in% rownames(installed.packages())) {
                margins = c(4, 4, 2, 2),
                legend.inset = - 1)
 }
-
 ```
 
 2. **a dataset with information on the survival outcome**, which should contain (at least) the following variables: a subject identifier that should be named `id`, the time to event outcome called `time`, and the binary event indicator called `event` (NB: make sure that the variable names associated to these three variables are indeed `id`, `time` and `event`!)
@@ -314,10 +324,12 @@ Estimation of the PRC-MLPMM(U) and PRC-MLPMM(U+B) models proceeds in a similar f
 After fitting the model, you will probably want to obtain **predicted survival probabilities** for each individual at several time points. This can be done through the function `survpred_prclmm`, which takes as inputs the outputs of step1, step 2 and step 3, alongside with the time points at which to compute the survival probabilities:
 
 ```{r}
-preds = survpred_prclmm(step1, step2, step3, times = c(1, 2, 3))
+preds = survpred_prclmm(step1, step2, step3, times = 3:5)
 ls(preds)
 head(preds$predicted_survival)
 ```
+
+The output provides the **conditional probabilities of survival at times $t = 3, 4, 5$ conditionally on survival up to the landmark time 2**.
 
 ## Cluster bootstrap optimism correction and performance measures
 
@@ -331,7 +343,7 @@ To gather the results of the CBOCP we can use the function `performance_prc`:
 
 ```{r cbocp, cache = F}
 cbocp = performance_prc(step2, step3, metric = c('tdauc', 'c', 'brier'),
-                        times = 1:3, n.cores = n.cores)
+                        times = 3:5, n.cores = n.cores)
 ls(cbocp)
 # time-dependent AUC estimates:
 cbocp$tdAUC
@@ -343,9 +355,9 @@ cbocp$Brier
 
 From the results above we can see that, for example:
 
-* the naive tdAUC for predictions at 2 years from baseline is estimated = 0.834, and the optimism-corrected estimate is = 0.796;
-* the naive C index is estimated = 0.786, and the optimism-corrected C index is estimated = 0.747;
-* the naive Brier score for predictions at 1 year from baseline is estimated = 0.146, and the optimism-corrected estimate is = 0.211.
+* the naive tdAUC for predictions at 4 years from baseline is estimated = `r subset(cbocp$tdAUC, pred.time == 4, 'tdAUC.naive') |> as.numeric()`, and the optimism-corrected estimate is = `r subset(cbocp$tdAUC, pred.time == 4, 'tdAUC.adjusted') |> as.numeric()`;
+* the naive C index is estimated =`r subset(cbocp$concordance, T, 'C.naive') |> as.numeric()`, and the optimism-corrected C index is estimated = `r subset(cbocp$concordance, T, 'C.adjusted') |> as.numeric()`;
+* the naive Brier score for predictions at 3 years from baseline is estimated = `r subset(cbocp$Brier, pred.time == 3, 'Brier.naive') |> as.numeric()`, and the optimism-corrected estimate is = `r subset(cbocp$Brier, pred.time == 3, 'Brier.adjusted') |> as.numeric()`.
 
 # Further details and material
 

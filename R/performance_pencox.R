@@ -49,7 +49,7 @@
 #' set.seed(1234)
 #' p = 4 # number of longitudinal predictors
 #' simdata = simulate_prclmm_data(n = 100, p = p, p.relev = 2, 
-#'              seed = 123, t.values = c(0, 0.2, 0.5, 1, 1.5, 2))
+#'              seed = 123, t.values = c(0, 0.5, 1, 1.5, 2))
 #' # create dataframe with baseline measurements only
 #' baseline.visits = simdata$long.data[which(!duplicated(simdata$long.data$id)),]
 #' df = cbind(simdata$surv.data, baseline.visits)
@@ -76,7 +76,7 @@
 #'                    
 #' # compute the performance measures
 #' perf = performance_pencox(fitted_pencox = base.pcox, 
-#'           metric = 'tdauc', times = c(1, 1.5, 2), n.cores = n.cores)
+#'           metric = 'tdauc', times = 3:5, n.cores = n.cores)
 #'  # use metric = 'brier' for the Brier score and metric = 'c' for the
 #'  # concordance index
 #' 
