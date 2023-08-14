@@ -1,13 +1,12 @@
 #' Simulate data that can be used to fit the PRC-LMM model
 #'
 #' This function allows to simulate a survival outcome
-#' from longitudinal predictors. Specifically, the longitudinal
+#' from longitudinal predictors following the PRC LMM model
+#' presented in Signorelli et al. (2021). Specifically, the longitudinal
 #' predictors are simulated from linear mixed models (LMMs), and 
 #' the survival outcome from a Weibull model where the time
 #' to event depends linearly on the baseline age and on the 
 #' random effects from the LMMs.
-#' It is an implementation of the simulation method used in
-#' Signorelli et al. (2021)
 #' 
 #' @param n sample size
 #' @param p number of longitudinal outcomes
