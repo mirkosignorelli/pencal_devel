@@ -64,7 +64,7 @@
 #' @examples
 #' # generate example data
 #' simdata = simulate_prclmm_data(n = 20, p = 10, p.relev = 4,
-#'                t.values = c(0, 0.5, 1, 2), landmark = max(t.values), 
+#'                t.values = c(0, 0.5, 1, 2), landmark = 2, 
 #'                seed = 19931101)
 #' # view the longitudinal markers:
 #' if(requireNamespace("ptmixed")) {
