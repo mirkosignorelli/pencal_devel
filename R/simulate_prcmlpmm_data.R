@@ -7,8 +7,6 @@
 #' latent process mixed models (MLPMMs), and 
 #' the survival outcome from a Weibull model where the time
 #' to event depends on the random effects from the MLPMMs.
-#' It is an implementation of the simulation method used in
-#' Signorelli et al. (2021)
 #' 
 #' @param n sample size
 #' @param p number of longitudinal latent processes
