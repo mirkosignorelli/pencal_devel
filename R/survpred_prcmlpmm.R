@@ -34,9 +34,9 @@
 #' @examples
 #' data(fitted_prcmlpmm)
 #'                    
-#' # predict survival probabilities at times 1, 2, 3
+#' # predict survival probabilities at times 3 to 6
 #' surv.probs = survpred_prcmlpmm(fitted_prcmlpmm$step2, 
-#'                  fitted_prcmlpmm$step3, times = 1:3)
+#'                  fitted_prcmlpmm$step3, times = 3:6)
 #' ls(surv.probs)
 #' head(surv.probs$predicted_survival)
 

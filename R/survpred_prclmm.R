@@ -52,7 +52,8 @@
 #' set.seed(1234)
 #' p = 4 # number of longitudinal predictors
 #' simdata = simulate_prclmm_data(n = 100, p = p, p.relev = 2, 
-#'              seed = 123, t.values = c(0, 0.2, 0.5, 1, 1.5, 2))
+#'              t.values = c(0, 0.2, 0.5, 1, 1.5, 2),
+#'              landmark = 2, seed = 123)
 #'              
 #' # step 1 of PRC-LMM: estimate the LMMs
 #' y.names = paste('marker', 1:p, sep = '')
@@ -72,8 +73,8 @@
 #'                    baseline.covs = ~ baseline.age,
 #'                    penalty = 'ridge')
 #'                    
-#' # predict survival probabilities at times 1, 2, 3
-#' surv.probs = survpred_prclmm(step1, step2, step3, times = 1:3)
+#' # predict survival probabilities at times 3 to 6
+#' surv.probs = survpred_prclmm(step1, step2, step3, times = 3:6)
 #' head(surv.probs$predicted_survival)
 #' 
 #' # predict survival probabilities for new subjects:
@@ -82,7 +83,7 @@
 #' new.longdata = temp$long.data
 #' new.basecovs = temp$surv.data[ , 1:2]
 #' surv.probs.new = survpred_prclmm(step1, step2, step3, 
-#'                      times = 1:3,
+#'                      times = 3:6,
 #'                      new.longdata = new.longdata,
 #'                      new.basecovs = new.basecovs)
 #' head(surv.probs.new$predicted_survival)
