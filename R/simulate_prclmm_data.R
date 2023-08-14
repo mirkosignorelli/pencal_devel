@@ -1,33 +1,35 @@
 #' Simulate data that can be used to fit the PRC-LMM model
 #'
 #' This function allows to simulate a survival outcome
-#' from longitudinal predictors. Specifically, the longitudinal
+#' from longitudinal predictors following the PRC LMM model
+#' presented in Signorelli et al. (2021). Specifically, the longitudinal
 #' predictors are simulated from linear mixed models (LMMs), and 
 #' the survival outcome from a Weibull model where the time
 #' to event depends linearly on the baseline age and on the 
 #' random effects from the LMMs.
-#' It is an implementation of the simulation method used in
-#' Signorelli et al. (2021)
 #' 
 #' @param n sample size
 #' @param p number of longitudinal outcomes
 #' @param p.relev number of longitudinal outcomes that
 #' are associated with the survival outcome (min: 1, max: p)
+#' @param t.values vector specifying the time points 
+#' at which longitudinal measurements are collected
+#' (NB: for simplicity, this function assumes a balanced 
+#' designed; however, \code{pencal} is designed to work
+#' both with balanced and with unbalanced designs!)
+#' @param landmark the landmark time up until which all individuals survived.
+#' Default is equal to \code{max(t.values)}
+#' @param seed random seed (defaults to 1)
 #' @param lambda Weibull location parameter, positive
 #' @param nu Weibull scale parameter, positive
-#' @param seed random seed (defaults to 1)
+#' @param cens.range range for censoring times. By default, the minimum
+#' of this range is equal to the \code{landmark} time
 #' @param base.age.range range for age at baseline (set it
 #' equal to c(0, 0) if you want all subjects to enter
 #' the study at the same age)
 #' @param tau.age the coefficient that multiplies baseline age
 #' in the linear predictor (like in formula (6) from Signorelli 
 #' et al. (2021))
-#' @param cens.range range for censoring times
-#' @param t.values vector specifying the time points 
-#' at which longitudinal measurements are collected
-#' (NB: for simplicity, this function assumes a balanced 
-#' designed; however, \code{pencal} is designed to work
-#' both with balanced and with unbalanced designs!)
 #' 
 #' @return A list containing the following elements:
 #' \itemize{
@@ -61,8 +63,9 @@
 #' 
 #' @examples
 #' # generate example data
-#' simdata = simulate_prclmm_data(n = 20, p = 10, 
-#'                         p.relev = 4, seed = 1)
+#' simdata = simulate_prclmm_data(n = 20, p = 10, p.relev = 4,
+#'                t.values = c(0, 0.5, 1, 2), landmark = 2, 
+#'                seed = 19931101)
 #' # view the longitudinal markers:
 #' if(requireNamespace("ptmixed")) {
 #'   ptmixed::make.spaghetti(x = age, y = marker1, 
@@ -80,10 +83,10 @@
 #'                   type="kaplan-meier")
 #' plot(kaplan)
 
-simulate_prclmm_data = function(n = 100, p = 10, p.relev = 4, 
-              lambda = 0.2, nu = 2, seed = 1,
-              base.age.range = c(3, 5), tau.age = 0.2,
-              cens.range = c(0.5, 10), t.values = c(0, 0.5, 1, 2)) {
+simulate_prclmm_data = function(n = 100, p = 10, p.relev = 4,
+              t.values = c(0, 0.5, 1, 2), landmark = max(t.values),
+              seed = 1, lambda = 0.2, nu = 2, cens.range = c(landmark, 10),
+              base.age.range = c(3, 5), tau.age = 0.2) {
   if (n < 1) stop('n should be a positive integer')
   if (p < 1 | p.relev < 1) stop('p and p.relev should be a positive integer')
   if (p.relev > p) stop('p.relev should be <= p')
@@ -128,7 +131,7 @@ simulate_prclmm_data = function(n = 100, p = 10, p.relev = 4,
   X.temp = cbind(baseline.age, rand.int, rand.slope)
   true.t = simulate_t_weibull(n = n, lambda = lambda, nu = nu,
              beta = c(tau.age, gamma, delta), 
-             X = X.temp, seed = seed)
+             X = X.temp, seed = seed) + landmark
   censoring.times = runif(n = n, min = cens.range[1],
                         max = cens.range[2])
   event = ifelse(true.t > censoring.times, 0, 1)
