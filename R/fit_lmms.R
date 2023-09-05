@@ -134,7 +134,7 @@ fit_lmms = function(y.names, fixefs, ranefs, long.data,
     n.cores = 1
   }
   # check how many cores are actually available for this computation
-  if (n.cores > 1) {
+  if (n.boots > 0) {
     max.cores = parallel::detectCores()
     if (!is.na(max.cores)) {
       .check_ncores(avail = max.cores, requested = n.cores, verbose = verbose)
