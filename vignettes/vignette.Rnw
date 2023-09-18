@@ -1,0 +1,8 @@
+\documentclass{article}
+\usepackage{pdfpages}
+%\VignetteIndexEntry{pencal: an R Package for the Dynamic Prediction of Survival with Many Longitudinal Predictors}
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+\includepdf[pages=-, fitpaper=true]{pencal_vignette.pdf}
+\end{document}
