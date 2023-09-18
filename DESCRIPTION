@@ -1,7 +1,7 @@
 Package: pencal
-Title: Penalized Regression Calibration (PRC) for the dynamic prediction
-    of survival
-Version: 2.0.2
+Title: Penalized Regression Calibration (PRC) for the Dynamic Prediction
+    of Survival
+Version: 2.1.0
 Authors@R: c(
     person("Mirko", "Signorelli", , "msignorelli.rpackages@gmail.com", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0002-8102-3356")),
@@ -13,7 +13,7 @@ Description: Computes penalized regression calibration (PRC), a
     statistical method that allows to predict survival from
     high-dimensional longitudinal predictors. PRC is described in
     Signorelli et al.  (2021) <doi:10.1002/sim.9178>.
-License: GPL-3
+License: GPL (>= 3)
 URL: https://mirkosignorelli.github.io/r
 Depends: 
     R (>= 4.1.0)
@@ -23,3 +23,25 @@ biocViews:
 Encoding: UTF-8
 Roxygen: list(old_usage = TRUE)
 RoxygenNote: 7.2.3
+Imports: 
+    doParallel,
+    dplyr,
+    foreach,
+    glmnet,
+    lcmm,
+    magic,
+    MASS,
+    Matrix,
+    methods,
+    nlme,
+    purrr,
+    riskRegression,
+    stats,
+    survcomp,
+    survival,
+    survivalROC
+Suggests: 
+    knitr,
+    ptmixed,
+    rmarkdown,
+    survminer
