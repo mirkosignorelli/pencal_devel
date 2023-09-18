@@ -16,8 +16,9 @@
 #' @param penalty the type of penalty function used for regularization.
 #' Default is \code{'ridge'}, other possible values are \code{'elasticnet'} 
 #' and \code{'lasso'}
-#' @param standardize logical argument: should the predicted random effects
-#' be standardized when included in the penalized Cox model? Default is \code{TRUE}
+#' @param standardize logical argument: should the predictors (both baseline covariates
+#' and predicted random effects) be standardized when included  as covariates
+#' in the penalized Cox model? Default is \code{TRUE}
 #' @param pfac.base.covs a single value, or a vector of values, indicating
 #' whether the baseline covariates (if any) should be penalized (1) or not (0).
 #' Default is \code{pfac.base.covs = 0} (no penalization of all baseline covariates)
