@@ -62,6 +62,10 @@
 #' 
 #' @author Mirko Signorelli
 #' @references 
+#' Signorelli, M. (2023). pencal: an R Package for the Dynamic 
+#' Prediction of Survival with Many Longitudinal Predictors.
+#' arXiv preprint: arXiv:2309.15600
+#' 
 #' Signorelli, M., Spitali, P., Al-Khalili Szigyarto, C, 
 #' The MARK-MD Consortium, Tsonaka, R. (2021). 
 #' Penalized regression calibration: a method for the prediction 
