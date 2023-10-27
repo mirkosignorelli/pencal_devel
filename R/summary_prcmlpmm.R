@@ -6,9 +6,17 @@
 #' @return An object of class `sprcmlpmm`
 #' @export
 #' @author Mirko Signorelli
-#' @references Signorelli, M., Spitali, P., Tsonaka, R. (2021). Poisson-Tweedie 
-#' mixed-effects model: a flexible approach for the analysis of longitudinal RNA-seq
-#' data. Statistical Modelling, 21 (6), 520-545. URL: https://doi.org/10.1177/1471082X20936017
+#' @references 
+#' Signorelli, M. (2023). pencal: an R Package for the Dynamic 
+#' Prediction of Survival with Many Longitudinal Predictors.
+#' arXiv preprint: arXiv:2309.15600
+#' 
+#' Signorelli, M., Spitali, P., Al-Khalili Szigyarto, C, 
+#' The MARK-MD Consortium, Tsonaka, R. (2021). 
+#' Penalized regression calibration: a method for the prediction 
+#' of survival outcomes using complex longitudinal and 
+#' high-dimensional data. Statistics in Medicine, 40 (27), 6178-6196.
+#' DOI: 10.1002/sim.9178
 #' @seealso \code{\link{fit_prcmlpmm}}, \code{\link{print.prcmlpmm}}
  
 summary.prcmlpmm = function(object, ...) {
