@@ -10,7 +10,7 @@
 #' @export
 #' @author Mirko Signorelli
 #' @references
-#' #' Signorelli, M. (2023). pencal: an R Package for the Dynamic 
+#' Signorelli, M. (2023). pencal: an R Package for the Dynamic 
 #' Prediction of Survival with Many Longitudinal Predictors.
 #' arXiv preprint: arXiv:2309.15600
 #' 
