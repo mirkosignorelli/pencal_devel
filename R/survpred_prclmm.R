@@ -114,7 +114,7 @@ survpred_prclmm = function(step1, step2, step3,
   # checks on step 1 input
   temp = c('call.info', 'lmm.fits.orig', 'df.sanitized', 'n.boots')
   check1 = temp %in% ls(step1)
-  mess = paste('step1 input should cointain:',
+  mess = paste('step1 input should contain:',
                paste(temp, collapse = ', '))
   if (!all(check1, TRUE)) stop(mess)
   if (!is.null(new.longdata)) {
@@ -135,14 +135,14 @@ survpred_prclmm = function(step1, step2, step3,
   # checks on step 2 input
   temp = c('call', 'ranef.orig', 'n.boots')
   check1 = temp %in% ls(step2)
-  mess1 = paste('step2 input should cointain:', do.call(paste, as.list(temp)) )
+  mess1 = paste('step2 input should contain:', do.call(paste, as.list(temp)) )
   if (sum(check1) != 3) stop(mess1)
   ranef.orig = step2$ranef.orig
   
   # checks on step 3 input
   temp = c('call', 'pcox.orig', 'surv.data', 'n.boots')
   check2 = temp %in% ls(step3)
-  mess2 = paste('step2 input should cointain:', do.call(paste, as.list(temp)) )
+  mess2 = paste('step2 input should contain:', do.call(paste, as.list(temp)) )
   if (sum(check2) != 4) stop(mess2)
   baseline.covs = eval(step3$call$baseline.covs)
   pcox.orig = step3$pcox.orig
