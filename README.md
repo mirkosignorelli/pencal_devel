@@ -3,6 +3,7 @@
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/pencal)](https://cran.r-project.org/package=pencal)
 [![Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/pencal?color=orange)](http://cranlogs.r-pkg.org/badges/grand-total/pencal)
 [![Monthly Downloads](http://cranlogs.r-pkg.org/badges/pencal)](http://cranlogs.r-pkg.org/badges/pencal)
+[![R-CMD-check](https://github.com/mirkosignorelli/pencal_devel/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mirkosignorelli/pencal_devel/actions/workflows/R-CMD-check.yaml)
 
 <img src="https://user-images.githubusercontent.com/20061736/162180793-072613f0-a93e-4ef6-b0c4-b8d8a45d770a.png" align="right" alt="" width="250" />
 
