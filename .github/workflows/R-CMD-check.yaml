@@ -26,4 +26,9 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
+      - uses: r-lib/actions/setup-tinytex@v2
+        env:
+          # Install full bundle with pdfpages
+          TINYTEX_INSTALLER: TinyTeX
+
       - uses: r-lib/actions/check-r-package@v2
