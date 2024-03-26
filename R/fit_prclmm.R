@@ -253,6 +253,7 @@ fit_prclmm = function(object, surv.data, baseline.covs = NULL,
     # optimal combination of (alpha, lambda)
     id.best = which.min(tuning.matr[ ,3])
     pcox.orig = fits[[id.best]]
+    elnet.tuned = tuning.matr[id.best, ]
   }
   if (verbose) cat('...done\n')
   
@@ -342,8 +343,8 @@ fit_prclmm = function(object, surv.data, baseline.covs = NULL,
   # export results
   out = list('call' = call, 'pcox.orig' = pcox.orig,
             'surv.data' = surv.data, 'n.boots' = n.boots)
-  if (penalty %in% c('ridge', 'lasso')) tuning = x$pcox.orig$lambda.min
-  if (penalty == 'elasticnet') out$tuning = tuning.matr[id.best, ]
+  if (penalty %in% c('ridge', 'lasso')) out$tuning = c('lambda' = pcox.orig$lambda.min)
+  if (penalty == 'elasticnet') out$tuning = elnet.tuned
   if (n.boots >= 1) {
     out[['boot.ids']] = boot.ids
     out[['pcox.boot']] = pcox.boot
