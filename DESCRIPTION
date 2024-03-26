@@ -1,7 +1,7 @@
 Package: pencal
 Title: Penalized Regression Calibration (PRC) for the Dynamic Prediction
     of Survival
-Version: 2.1.1
+Version: 2.1.2
 Authors@R: c(
     person("Mirko", "Signorelli", , "msignorelli.rpackages@gmail.com", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0002-8102-3356")),
