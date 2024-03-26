@@ -107,6 +107,11 @@ step1 = fit_lmms(y.names = y.names,
                  surv.data = simdata$surv.data,
                  t.from.base = t.from.base,
                  n.boots = n.boots, n.cores = n.cores)
+# estimated betas and variances for the 3rd marker:
+summary(step1, 'marker3', 'betas')
+summary(step1, 'marker3', 'variances')
+usual T table:
+summary(step1, 'marker3', 'tTable')
 }
 \references{
 Signorelli, M. (2023). pencal: an R Package for the Dynamic 

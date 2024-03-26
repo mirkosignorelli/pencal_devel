@@ -334,5 +334,6 @@ fit_mlpmms = function(y.names, fixefs, ranef.time,
     out[['boot.ids']] = boot.ids
     out[['mlpmm.fits.boot']] = fit.boots
   }
+  class(out) = 'mlpmmfit'
   return(out)
 }
