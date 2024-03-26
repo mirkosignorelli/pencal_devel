@@ -141,6 +141,9 @@ step1 = fit_mlpmms(y.names, fixefs = ~ contrast(age),
                  surv.data = simdata$surv.data,
                  t.from.base = t.from.base,
                  n.boots = n.boots, n.cores = n.cores)
+
+# print MLPMM summary for marker 5 (all items involved in that MLPMM):
+summary(step1, 'marker5_2')
 }
 }
 \references{

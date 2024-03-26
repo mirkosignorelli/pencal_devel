@@ -22,6 +22,8 @@
 #' @param pfac.base.covs a single value, or a vector of values, indicating
 #' whether the baseline covariates (if any) should be penalized (1) or not (0).
 #' Default is \code{pfac.base.covs = 0} (no penalization of all baseline covariates)
+#' @param cv.seed value of the random seed to use for the cross-validation
+#' done to select the optimal value of the tuning parameter
 #' @param n.alpha.elnet number of alpha values for the two-dimensional 
 #' grid of tuning parameteres in elasticnet.
 #' Only relevant if \code{penalty = 'elasticnet'}. Default is 11,
@@ -41,6 +43,8 @@
 #' \item \code{call}: the function call
 #' \item \code{pcox.orig}: the penalized Cox model fitted on the
 #' original dataset;
+#' \item \code{tuning}: the values of the tuning parameter(s) selected through 
+#' cross-validation
 #' \item \code{surv.data}: the supplied survival data (ordered by
 #' subject id)
 #' \item \code{n.boots}: number of bootstrap samples;
@@ -113,14 +117,17 @@
 
 fit_prclmm = function(object, surv.data, baseline.covs = NULL,
                       penalty = 'ridge', standardize = TRUE,
-                      pfac.base.covs = 0,
+                      pfac.base.covs = 0, cv.seed = 19920207,
                       n.alpha.elnet = 11, n.folds.elnet = 5,
                       n.cores = 1, verbose = TRUE) {
   call = match.call()
+  penalty = match.arg(penalty, choices = c('ridge', 'elasticnet', 'lasso'))
   requireNamespace('foreach')
   requireNamespace('glmnet')
   requireNamespace('survival')
   requireNamespace('doParallel')
+  # seed for CV for tuning parameter selection
+  set.seed(cv.seed)
   # fix for 'no visible binding for global variable...' note
   id = i = b = NULL
   # identify inputs and perform checks
@@ -246,6 +253,7 @@ fit_prclmm = function(object, surv.data, baseline.covs = NULL,
     # optimal combination of (alpha, lambda)
     id.best = which.min(tuning.matr[ ,3])
     pcox.orig = fits[[id.best]]
+    elnet.tuned = tuning.matr[id.best, ]
   }
   if (verbose) cat('...done\n')
   
@@ -335,6 +343,8 @@ fit_prclmm = function(object, surv.data, baseline.covs = NULL,
   # export results
   out = list('call' = call, 'pcox.orig' = pcox.orig,
             'surv.data' = surv.data, 'n.boots' = n.boots)
+  if (penalty %in% c('ridge', 'lasso')) out$tuning = c('lambda' = pcox.orig$lambda.min)
+  if (penalty == 'elasticnet') out$tuning = elnet.tuned
   if (n.boots >= 1) {
     out[['boot.ids']] = boot.ids
     out[['pcox.boot']] = pcox.boot

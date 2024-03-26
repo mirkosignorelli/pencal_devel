@@ -34,6 +34,8 @@ print.sprclmm = function(x, digits = 4, ...) {
   dat = x$data_info
   paste('Fitted model:', mod$fitted_model) |> cat(); cat('\n')
   paste('Penalty function used:', mod$penalty) |> cat(); cat('\n')
+  paste('Tuning parameters selected by CV:') |> cat(); cat('\n')
+  x$tuning |> round(6); cat('\n')
   
   paste('Sample size:', dat$n) |> cat(); cat('\n')
   paste('Number of events:', dat$n_ev) |> cat(); cat('\n')
@@ -60,8 +62,17 @@ getinfo_step3 = function(x) {
   )
   coefficients = coef(x$pcox.orig, s = 'lambda.min') |> 
     as.matrix() |> t()
+  if (model_info$penalty %in% c('ridge', 'lasso')) {
+    tuning = list(lambda = x$pcox.orig$lambda.min)
+  }
+  if (model_info$penalty == 'elasticnet') {
+    lambda = tuning$lambda
+    alpha = tuning$alpha
+    tuning = list(lambda = lambda, alpha = alpha)
+  }
   out = list(model_info = model_info, 
              data_info = data_info, 
-             coefficients = coefficients)
+             coefficients = coefficients,
+             tuning = tuning)
   out
 }

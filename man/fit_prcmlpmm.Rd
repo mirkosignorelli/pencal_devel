@@ -6,7 +6,8 @@
 \usage{
 fit_prcmlpmm(object, surv.data, baseline.covs = NULL, include.b0s = TRUE,
   penalty = "ridge", standardize = TRUE, pfac.base.covs = 0,
-  n.alpha.elnet = 11, n.folds.elnet = 5, n.cores = 1, verbose = TRUE)
+  cv.seed = 19920207, n.alpha.elnet = 11, n.folds.elnet = 5,
+  n.cores = 1, verbose = TRUE)
 }
 \arguments{
 \item{object}{the output of step 2 of the PRC-MLPMM procedure, 
@@ -37,6 +38,9 @@ be standardized when included in the penalized Cox model? Default is \code{TRUE}
 whether the baseline covariates (if any) should be penalized (1) or not (0).
 Default is \code{pfac.base.covs = 0} (no penalization of all baseline covariates)}
 
+\item{cv.seed}{value of the random seed to use for the cross-validation
+done to select the optimal value of the tuning parameter}
+
 \item{n.alpha.elnet}{number of alpha values for the two-dimensional 
 grid of tuning parameteres in elasticnet.
 Only relevant if \code{penalty = 'elasticnet'}. Default is 11,
@@ -60,6 +64,8 @@ A list containing the following objects:
 \item \code{call}: the function call
 \item \code{pcox.orig}: the penalized Cox model fitted on the
 original dataset;
+\item \code{tuning}: the values of the tuning parameter(s) selected through 
+cross-validation
 \item \code{surv.data}: the supplied survival data (ordered by
 subject id)
 \item \code{n.boots}: number of bootstrap samples;

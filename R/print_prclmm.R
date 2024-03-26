@@ -28,6 +28,7 @@ print.prclmm = function(x, digits = 4, ...) {
   dat = temp$data_info
   paste('Fitted model:', mod$fitted_model) |> cat(); cat('\n')
   paste('Penalty function used:', mod$penalty) |> cat(); cat('\n')
+  paste('Tuning parameters selected by CV:', temp$tuning) |> cat(); cat('\n')
   
   paste('Sample size:', dat$n) |> cat(); cat('\n')
   paste('Number of events:', dat$n_ev) |> cat(); cat('\n')
