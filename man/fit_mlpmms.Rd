@@ -106,43 +106,6 @@ re-estimate the specific MLPMMs for which estimation didn't converge
 directly with \code{\link{multlcmm}}, trying to manually solve
 the convergence issues
 }
-\examples{
-\donttest{
-# generate example data
-set.seed(123)
-n.items = c(4,2,2,3,4,2)
-simdata = simulate_prcmlpmm_data(n = 100, p = length(n.items),  
-             p.relev = 3, n.items = n.items, 
-             type = 'u+b', seed = 1)
- 
-# specify options for cluster bootstrap optimism correction
-# procedure and for parallel computing 
-do.bootstrap = FALSE
-# IMPORTANT: set do.bootstrap = TRUE to compute the optimism correction!
-n.boots = ifelse(do.bootstrap, 100, 0)
-more.cores = FALSE
-# IMPORTANT: set more.cores = TRUE to speed computations up!
-if (!more.cores) n.cores = 2
-if (more.cores) {
-   # identify number of available cores on your machine
-   n.cores = parallel::detectCores()
-   if (is.na(n.cores)) n.cores = 2
-}
-
-# step 1 of PRC-MLPMM: estimate the MLPMMs
-y.names = vector('list', length(n.items))
-for (i in 1:length(n.items)) {
-  y.names[[i]] = paste('marker', i, '_', 1:n.items[i], sep = '')
-}
-
-step1 = fit_mlpmms(y.names, fixefs = ~ contrast(age),  
-                 ranef.time = age, randint.items = TRUE, 
-                 long.data = simdata$long.data, 
-                 surv.data = simdata$surv.data,
-                 t.from.base = t.from.base,
-                 n.boots = n.boots, n.cores = n.cores)
-}
-}
 \references{
 Signorelli, M. (2023). pencal: an R Package for the Dynamic 
 Prediction of Survival with Many Longitudinal Predictors.

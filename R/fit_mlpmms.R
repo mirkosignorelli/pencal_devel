@@ -141,6 +141,7 @@
 #'
 #' # print MLPMM summary for marker 5 (all items involved in that MLPMM):
 #' summary(step1, 'marker5_2')
+#' }
 
 fit_mlpmms = function(y.names, fixefs, ranef.time, 
                     randint.items = TRUE, long.data, 
