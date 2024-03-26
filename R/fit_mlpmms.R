@@ -138,7 +138,9 @@
 #'                  surv.data = simdata$surv.data,
 #'                  t.from.base = t.from.base,
 #'                  n.boots = n.boots, n.cores = n.cores)
-#' }
+#'
+#' # print MLPMM summary for marker 5 (all items involved in that MLPMM):
+#' summary(step1, 'marker5_2')
 
 fit_mlpmms = function(y.names, fixefs, ranef.time, 
                     randint.items = TRUE, long.data, 
@@ -334,5 +336,6 @@ fit_mlpmms = function(y.names, fixefs, ranef.time,
     out[['boot.ids']] = boot.ids
     out[['mlpmm.fits.boot']] = fit.boots
   }
+  class(out) = 'mlpmmfit'
   return(out)
 }
