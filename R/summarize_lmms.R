@@ -284,5 +284,6 @@ summarize_lmms = function(object, n.cores = 1, verbose = TRUE) {
     out[['ranef.boot.train']] = ranef.boot.train
     out[['ranef.boot.valid']] = ranef.boot.valid
   }
+  class(out) = 'lmmsum'
   return(out)
 }

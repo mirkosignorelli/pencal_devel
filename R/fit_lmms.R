@@ -323,5 +323,6 @@ fit_lmms = function(y.names, fixefs, ranefs, long.data,
     out[['boot.ids']] = boot.ids
     out[['lmm.fits.boot']] = fit.boots
   }
+  class(out) = 'lmmfit'
   return(out)
 }

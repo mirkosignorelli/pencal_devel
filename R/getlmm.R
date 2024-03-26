@@ -1,6 +1,6 @@
 #' Extract model fits from step 1 of PRC-LMM
 #'
-#' Utility function to extract the estimated fixed effect parameters and
+#' Summary function to extract the estimated fixed effect parameters and
 #' variances of the random effects from an object fitted using `fit_lmms`
 #' 
 #' @param object the output of `fit_lmms`
@@ -66,11 +66,12 @@
 #'                  n.boots = n.boots, n.cores = n.cores)
 #'                  
 #' # estimated betas and variances for the 5th marker:
-#' getlmm(step1, 'marker2', 'betas')
-#' getlmm(step1, 'marker2', 'tTable')
-#' getlmm(step1, 'marker2', 'variances')
+#' summary(step1, 'marker2', 'betas')
+#' summary(step1, 'marker2', 'tTable')
+#' summary(step1, 'marker2', 'variances')
 
-getlmm = function(object, yname, what = 'betas') {
+summary.lmmfit = function(object, yname, what = 'betas') {
+  what = match.arg(what, choices = c('betas', 'tTable', 'variances'))
   ynames = object$call.info$y.names
   if (! yname %in% ynames) {
     mess = paste(yname, 'is not one of the longitudinal variables in', 
