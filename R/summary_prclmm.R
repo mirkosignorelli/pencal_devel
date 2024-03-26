@@ -60,8 +60,17 @@ getinfo_step3 = function(x) {
   )
   coefficients = coef(x$pcox.orig, s = 'lambda.min') |> 
     as.matrix() |> t()
+  if (model_info$penalty %in% c('ridge', 'lasso')) {
+    tuning = list(lambda = x$pcox.orig$lambda.min)
+  }
+  if (model_info$penalty == 'elasticnet') {
+    lambda = tuning$lambda
+    alpha = tuning$alpha
+    tuning = list(lambda = lambda, alpha = alpha)
+  }
   out = list(model_info = model_info, 
              data_info = data_info, 
-             coefficients = coefficients)
+             coefficients = coefficients,
+             tuning = tuning)
   out
 }

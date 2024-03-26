@@ -43,6 +43,8 @@
 #' \item \code{call}: the function call
 #' \item \code{pcox.orig}: the penalized Cox model fitted on the
 #' original dataset;
+#' \item \code{tuning}: the values of the tuning parameter(s) selected through 
+#' cross-validation
 #' \item \code{surv.data}: the supplied survival data (ordered by
 #' subject id)
 #' \item \code{n.boots}: number of bootstrap samples;
@@ -340,7 +342,8 @@ fit_prclmm = function(object, surv.data, baseline.covs = NULL,
   # export results
   out = list('call' = call, 'pcox.orig' = pcox.orig,
             'surv.data' = surv.data, 'n.boots' = n.boots)
-  if (penalty == 'elasticnet') out$tuning = tuning.matr[id.best, 3]
+  if (model_info$penalty %in% c('ridge', 'lasso')) tuning = x$pcox.orig$lambda.min
+  if (penalty == 'elasticnet') out$tuning = tuning.matr[id.best, ]
   if (n.boots >= 1) {
     out[['boot.ids']] = boot.ids
     out[['pcox.boot']] = pcox.boot
