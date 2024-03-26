@@ -60,6 +60,8 @@ A list containing the following objects:
 \item \code{call}: the function call
 \item \code{pcox.orig}: the penalized Cox model fitted on the
 original dataset;
+\item \code{tuning}: the values of the tuning parameter(s) selected through 
+cross-validation
 \item \code{surv.data}: the supplied survival data (ordered by
 subject id)
 \item \code{n.boots}: number of bootstrap samples;
