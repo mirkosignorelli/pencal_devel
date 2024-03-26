@@ -24,6 +24,8 @@
 #' @param pfac.base.covs a single value, or a vector of values, indicating
 #' whether the baseline covariates (if any) should be penalized (1) or not (0).
 #' Default is \code{pfac.base.covs = 0} (no penalization of all baseline covariates)
+#' @param cv.seed value of the random seed to use for the cross-validation
+#' done to select the optimal value of the tuning parameter
 #' @param n.alpha.elnet number of alpha values for the two-dimensional 
 #' grid of tuning parameteres in elasticnet.
 #' Only relevant if \code{penalty = 'elasticnet'}. Default is 11,
@@ -125,7 +127,7 @@
 fit_prcmlpmm = function(object, surv.data, baseline.covs = NULL,
                       include.b0s = TRUE,
                       penalty = 'ridge', standardize = TRUE,
-                      pfac.base.covs = 0,
+                      pfac.base.covs = 0, cv.seed = 19920207,
                       n.alpha.elnet = 11, n.folds.elnet = 5,
                       n.cores = 1, verbose = TRUE) {
   call = match.call()
