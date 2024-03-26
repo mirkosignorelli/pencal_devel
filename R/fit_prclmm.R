@@ -123,6 +123,8 @@ fit_prclmm = function(object, surv.data, baseline.covs = NULL,
   requireNamespace('glmnet')
   requireNamespace('survival')
   requireNamespace('doParallel')
+  # seed for CV for tuning parameter selection
+  set.seed(cv.seed)
   # fix for 'no visible binding for global variable...' note
   id = i = b = NULL
   # identify inputs and perform checks
