@@ -4,20 +4,10 @@
 \alias{simulate_prcmlpmm_data}
 \title{Simulate data that can be used to fit the PRC-LMM model}
 \usage{
-simulate_prcmlpmm_data(
-  n = 100,
-  p = 5,
-  p.relev = 2,
-  n.items = c(3, 2, 3, 4, 1),
-  type = "u",
-  lambda = 0.2,
-  nu = 2,
-  seed = 1,
-  base.age.range = c(3, 5),
-  tau.age = 0.2,
-  cens.range = c(0.5, 10),
-  t.values = c(0, 0.5, 1, 2)
-)
+simulate_prcmlpmm_data(n = 100, p = 5, p.relev = 2, n.items = c(3, 2,
+  3, 4, 1), type = "u", t.values = c(0, 0.5, 1, 2),
+  landmark = max(t.values), seed = 1, lambda = 0.2, nu = 2,
+  cens.range = c(landmark, 10), base.age.range = c(3, 5), tau.age = 0.2)
 }
 \arguments{
 \item{n}{sample size}
@@ -37,11 +27,23 @@ refers to the PRC-MLPMM(U) model, and 'u+b' to the PRC-MLPMM(U+B)
 model presented in Section 2.3 of Signorelli et al. (2021).
 See the article for the mathematical details}
 
+\item{t.values}{vector specifying the time points 
+at which longitudinal measurements are collected
+(NB: for simplicity, this function assumes a balanced 
+designed; however, \code{pencal} is designed to work
+both with balanced and with unbalanced designs!)}
+
+\item{landmark}{the landmark time up until which all individuals survived.
+Default is equal to \code{max(t.values)}}
+
+\item{seed}{random seed (defaults to 1)}
+
 \item{lambda}{Weibull location parameter, positive}
 
 \item{nu}{Weibull scale parameter, positive}
 
-\item{seed}{random seed (defaults to 1)}
+\item{cens.range}{range for censoring times. By default, the minimum
+of this range is equal to the \code{landmark} time}
 
 \item{base.age.range}{range for age at baseline (set it
 equal to c(0, 0) if you want all subjects to enter
@@ -50,14 +52,6 @@ the study at the same age)}
 \item{tau.age}{the coefficient that multiplies baseline age
 in the linear predictor (like in formulas (7) and (8) from  
 Signorelli et al. (2021))}
-
-\item{cens.range}{range for censoring times}
-
-\item{t.values}{vector specifying the time points 
-at which longitudinal measurements are collected
-(NB: for simplicity, this function assumes a balanced 
-designed; however, \code{pencal} is designed to work
-both with balanced and with unbalanced designs!)}
 }
 \value{
 A list containing the following elements:
@@ -77,19 +71,19 @@ in the simulated dataset.
 }
 \description{
 This function allows to simulate a survival outcome
-from longitudinal predictors. Specifically, the longitudinal
-predictors are simulated from multivariate latent process
-mixed models (MLPMMs), and 
+from longitudinal predictors following the PRC MLPMM model
+presented in Signorelli et al. (2021). Specifically, the 
+longitudinal predictors are simulated from multivariate 
+latent process mixed models (MLPMMs), and 
 the survival outcome from a Weibull model where the time
 to event depends on the random effects from the MLPMMs.
-It is an implementation of the simulation method used in
-Signorelli et al. (2021)
 }
 \examples{
 # generate example data
 simdata = simulate_prcmlpmm_data(n = 40, p = 6,  
              p.relev = 3, n.items = c(3,4,2,5,4,2), 
-             type = 'u+b', seed = 1)
+             type = 'u+b', t.values = c(0, 0.5, 1, 2), 
+             landmark = 2, seed = 19931101)
 
 # names of the longitudinal outcomes:
 names(simdata$long.data)
@@ -115,6 +109,10 @@ kaplan <- survfit(surv.obj ~ 1,
 plot(kaplan)
 }
 \references{
+Signorelli, M. (2023). pencal: an R Package for the Dynamic 
+Prediction of Survival with Many Longitudinal Predictors.
+arXiv preprint: arXiv:2309.15600
+
 Signorelli, M., Spitali, P., Al-Khalili Szigyarto, C, 
 The MARK-MD Consortium, Tsonaka, R. (2021). 
 Penalized regression calibration: a method for the prediction 

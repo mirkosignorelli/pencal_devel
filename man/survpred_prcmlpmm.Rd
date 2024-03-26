@@ -29,13 +29,17 @@ in Signorelli et al. (2021)
 \examples{
 data(fitted_prcmlpmm)
                    
-# predict survival probabilities at times 1, 2, 3
+# predict survival probabilities at times 3 to 6
 surv.probs = survpred_prcmlpmm(fitted_prcmlpmm$step2, 
-                 fitted_prcmlpmm$step3, times = 1:3)
+                 fitted_prcmlpmm$step3, times = 3:6)
 ls(surv.probs)
 head(surv.probs$predicted_survival)
 }
 \references{
+Signorelli, M. (2023). pencal: an R Package for the Dynamic 
+Prediction of Survival with Many Longitudinal Predictors.
+arXiv preprint: arXiv:2309.15600
+
 Signorelli, M., Spitali, P., Al-Khalili Szigyarto, C, 
 The MARK-MD Consortium, Tsonaka, R. (2021). 
 Penalized regression calibration: a method for the prediction 

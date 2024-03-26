@@ -4,14 +4,8 @@
 \alias{performance_prc}
 \title{Predictive performance of the PRC-LMM and PRC-MLPMM models}
 \usage{
-performance_prc(
-  step2,
-  step3,
-  metric = c("tdauc", "c", "brier"),
-  times = c(2, 3),
-  n.cores = 1,
-  verbose = TRUE
-)
+performance_prc(step2, step3, metric = c("tdauc", "c", "brier"),
+  times = c(2, 3), n.cores = 1, verbose = TRUE)
 }
 \arguments{
 \item{step2}{the output of either \code{\link{summarize_lmms}} 
@@ -83,6 +77,10 @@ perf$tdAUC
 }
 }
 \references{
+Signorelli, M. (2023). pencal: an R Package for the Dynamic 
+Prediction of Survival with Many Longitudinal Predictors.
+arXiv preprint: arXiv:2309.15600
+
 Signorelli, M., Spitali, P., Al-Khalili Szigyarto, C, 
 The MARK-MD Consortium, Tsonaka, R. (2021). 
 Penalized regression calibration: a method for the prediction 

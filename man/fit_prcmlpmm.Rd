@@ -4,19 +4,9 @@
 \alias{fit_prcmlpmm}
 \title{Step 3 of PRC-MLPMM (estimation of the penalized Cox model(s))}
 \usage{
-fit_prcmlpmm(
-  object,
-  surv.data,
-  baseline.covs = NULL,
-  include.b0s = TRUE,
-  penalty = "ridge",
-  standardize = TRUE,
-  pfac.base.covs = 0,
-  n.alpha.elnet = 11,
-  n.folds.elnet = 5,
-  n.cores = 1,
-  verbose = TRUE
-)
+fit_prcmlpmm(object, surv.data, baseline.covs = NULL, include.b0s = TRUE,
+  penalty = "ridge", standardize = TRUE, pfac.base.covs = 0,
+  n.alpha.elnet = 11, n.folds.elnet = 5, n.cores = 1, verbose = TRUE)
 }
 \arguments{
 \item{object}{the output of step 2 of the PRC-MLPMM procedure, 
@@ -131,6 +121,10 @@ summary(step3)
 }
 }
 \references{
+Signorelli, M. (2023). pencal: an R Package for the Dynamic 
+Prediction of Survival with Many Longitudinal Predictors.
+arXiv preprint: arXiv:2309.15600
+
 Signorelli, M., Spitali, P., Al-Khalili Szigyarto, C, 
 The MARK-MD Consortium, Tsonaka, R. (2021). 
 Penalized regression calibration: a method for the prediction 
