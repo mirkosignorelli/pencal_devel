@@ -19,12 +19,16 @@ A data frame containing the bootstrapped observations
 }
 \description{
 This function is part of the cluster bootstrap optimism correction
-procedure described in Signorelli et al. (2020, in review). Note 
+procedure described in Signorelli et al. (2021). Note 
 that the function does not perform the random sampling, but it
 extracts the correct records from a dataframe, given the ids of
 the sampled clusters (subjects)
 }
 \references{
+Signorelli, M. (2023). pencal: an R Package for the Dynamic 
+Prediction of Survival with Many Longitudinal Predictors.
+arXiv preprint: arXiv:2309.15600
+
 Signorelli, M., Spitali, P., Al-Khalili Szigyarto, C, 
 The MARK-MD Consortium, Tsonaka, R. (2021). 
 Penalized regression calibration: a method for the prediction 

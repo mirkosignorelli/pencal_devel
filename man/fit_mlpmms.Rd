@@ -4,22 +4,10 @@
 \alias{fit_mlpmms}
 \title{Step 1 of PRC-MLPMM (estimation of the linear mixed models)}
 \usage{
-fit_mlpmms(
-  y.names,
-  fixefs,
-  ranef.time,
-  randint.items = TRUE,
-  long.data,
-  surv.data,
-  t.from.base,
-  n.boots = 0,
-  n.cores = 1,
-  verbose = TRUE,
-  seed = 123,
-  maxiter = 100,
-  conv = rep(0.001, 3),
-  lcmm.warnings = FALSE
-)
+fit_mlpmms(y.names, fixefs, ranef.time, randint.items = TRUE, long.data,
+  surv.data, t.from.base, n.boots = 0, n.cores = 1, verbose = TRUE,
+  seed = 123, maxiter = 100, conv = rep(0.001, 3),
+  lcmm.warnings = FALSE)
 }
 \arguments{
 \item{y.names}{a list with the names of the
@@ -156,6 +144,10 @@ step1 = fit_mlpmms(y.names, fixefs = ~ contrast(age),
 }
 }
 \references{
+Signorelli, M. (2023). pencal: an R Package for the Dynamic 
+Prediction of Survival with Many Longitudinal Predictors.
+arXiv preprint: arXiv:2309.15600
+
 Signorelli, M., Spitali, P., Al-Khalili Szigyarto, C, 
 The MARK-MD Consortium, Tsonaka, R. (2021). 
 Penalized regression calibration: a method for the prediction 

@@ -107,6 +107,11 @@
 #'                  surv.data = simdata$surv.data,
 #'                  t.from.base = t.from.base,
 #'                  n.boots = n.boots, n.cores = n.cores)
+#' # estimated betas and variances for the 3rd marker:
+#' summary(step1, 'marker3', 'betas')
+#' summary(step1, 'marker3', 'variances')
+#' usual T table:
+#' summary(step1, 'marker3', 'tTable')
 
 fit_lmms = function(y.names, fixefs, ranefs, long.data, 
                     surv.data, t.from.base, n.boots = 0, 
@@ -323,5 +328,6 @@ fit_lmms = function(y.names, fixefs, ranefs, long.data,
     out[['boot.ids']] = boot.ids
     out[['lmm.fits.boot']] = fit.boots
   }
+  class(out) = 'lmmfit'
   return(out)
 }

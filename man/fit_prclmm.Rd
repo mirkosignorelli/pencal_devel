@@ -4,18 +4,9 @@
 \alias{fit_prclmm}
 \title{Step 3 of PRC-LMM (estimation of the penalized Cox model(s))}
 \usage{
-fit_prclmm(
-  object,
-  surv.data,
-  baseline.covs = NULL,
-  penalty = "ridge",
-  standardize = TRUE,
-  pfac.base.covs = 0,
-  n.alpha.elnet = 11,
-  n.folds.elnet = 5,
-  n.cores = 1,
-  verbose = TRUE
-)
+fit_prclmm(object, surv.data, baseline.covs = NULL, penalty = "ridge",
+  standardize = TRUE, pfac.base.covs = 0, n.alpha.elnet = 11,
+  n.folds.elnet = 5, n.cores = 1, verbose = TRUE)
 }
 \arguments{
 \item{object}{the output of step 2 of the PRC-LMM procedure, 
@@ -35,8 +26,9 @@ as baseline covariates in the penalized Cox model. Example:
 Default is \code{'ridge'}, other possible values are \code{'elasticnet'} 
 and \code{'lasso'}}
 
-\item{standardize}{logical argument: should the predicted random effects
-be standardized when included in the penalized Cox model? Default is \code{TRUE}}
+\item{standardize}{logical argument: should the predictors (both baseline covariates
+and predicted random effects) be standardized when included  as covariates
+in the penalized Cox model? Default is \code{TRUE}}
 
 \item{pfac.base.covs}{a single value, or a vector of values, indicating
 whether the baseline covariates (if any) should be penalized (1) or not (0).
@@ -119,6 +111,10 @@ step3 = fit_prclmm(object = step2, surv.data = simdata$surv.data,
 summary(step3)                    
 }
 \references{
+Signorelli, M. (2023). pencal: an R Package for the Dynamic 
+Prediction of Survival with Many Longitudinal Predictors.
+arXiv preprint: arXiv:2309.15600
+
 Signorelli, M., Spitali, P., Al-Khalili Szigyarto, C, 
 The MARK-MD Consortium, Tsonaka, R. (2021). 
 Penalized regression calibration: a method for the prediction 

@@ -14,7 +14,8 @@ data(fitted_prclmm)
 \description{
 This list contains a fitted PRC MLPMM. It is
 used to reduce the computing time in the example of
-the function \code{survpred_prcmlpmm}
+the function \code{survpred_prcmlpmm}. The simulated dataset 
+on which the model was fitted was landmarked at t = 2.
 }
 \examples{
 data(fitted_prcmlpmm)

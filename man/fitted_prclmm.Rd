@@ -15,13 +15,18 @@ data(fitted_prclmm)
 This list contains a fitted PRC LMM, where the CBOCP is
 computed using 50 cluster bootstrap samples. It is
 used to reduce the computing time in the example of
-the function \code{performance_prc}
+the function \code{performance_prc}. The simulated dataset 
+on which the model was fitted was landmarked at t = 2.
 }
 \examples{
 data(fitted_prclmm)
 ls(fitted_prclmm)
 }
 \references{
+Signorelli, M. (2023). pencal: an R Package for the Dynamic 
+Prediction of Survival with Many Longitudinal Predictors.
+arXiv preprint: arXiv:2309.15600
+
 Signorelli, M., Spitali, P., Al-Khalili Szigyarto, C, 
 The MARK-MD Consortium, Tsonaka, R. (2021). 
 Penalized regression calibration: a method for the prediction 
