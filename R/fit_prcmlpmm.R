@@ -131,6 +131,7 @@ fit_prcmlpmm = function(object, surv.data, baseline.covs = NULL,
                       n.alpha.elnet = 11, n.folds.elnet = 5,
                       n.cores = 1, verbose = TRUE) {
   call = match.call()
+  penalty = match.arg(penalty, choices = c('ridge', 'elasticnet', 'lasso'))
   # remove b0s if include.b0s = F
   if (!include.b0s) {
     pos.b0 = which(substr(names(object$ranef.orig), 1, 2) == 'b0')

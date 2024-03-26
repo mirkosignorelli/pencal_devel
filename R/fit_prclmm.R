@@ -119,6 +119,7 @@ fit_prclmm = function(object, surv.data, baseline.covs = NULL,
                       n.alpha.elnet = 11, n.folds.elnet = 5,
                       n.cores = 1, verbose = TRUE) {
   call = match.call()
+  penalty = match.arg(penalty, choices = c('ridge', 'elasticnet', 'lasso'))
   requireNamespace('foreach')
   requireNamespace('glmnet')
   requireNamespace('survival')
