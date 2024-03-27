@@ -110,7 +110,7 @@ step1 = fit_lmms(y.names = y.names,
 # estimated betas and variances for the 3rd marker:
 summary(step1, 'marker3', 'betas')
 summary(step1, 'marker3', 'variances')
-usual T table:
+# usual T table:
 summary(step1, 'marker3', 'tTable')
 }
 \references{
