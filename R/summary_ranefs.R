@@ -22,7 +22,7 @@
 #' high-dimensional data. Statistics in Medicine, 40 (27), 6178-6196.
 #' DOI: 10.1002/sim.9178
 #' 
-#' @seealso \code{\link{fit_lmms}}
+#' @seealso \code{\link{summarize_lmms}}, \code{\link{summarize_mlpmms}}
 
 summary.ranefs = function(object) {
   dims = dim(object$ranef.orig)
