@@ -76,6 +76,7 @@ step1 = fit_mlpmms(y.names, fixefs = ~ contrast(age),
 
 # step 2 of PRC-MLPMM: compute the summaries 
 step2 = summarize_mlpmms(object = step1, n.cores = n.cores)
+summary(step2)
 }
 }
 \references{

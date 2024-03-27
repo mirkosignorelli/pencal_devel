@@ -3,8 +3,7 @@ lmmfit = function(x, ...) UseMethod('lmmfit', x)
 mlpmmfit = function(x, ...) UseMethod('mlpmmfit', x)
 
 # step 2
-lmmsum = function(x, ...) UseMethod('lmmsum', x)
-mlpmmsum = function(x, ...) UseMethod('mlpmmsum', x)
+ranefs = function(x, ...) UseMethod('ranefs', x)
 
 # step 3
 prclmm = function(x, ...) UseMethod('prclmm', x)

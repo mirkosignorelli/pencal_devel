@@ -71,6 +71,7 @@ step1 = fit_lmms(y.names = y.names,
 # step 2 of PRC-LMM: compute the summaries 
 # of the longitudinal outcomes
 step2 = summarize_lmms(object = step1, n.cores = n.cores)
+summary(step2)
 }
 \references{
 Signorelli, M. (2023). pencal: an R Package for the Dynamic 

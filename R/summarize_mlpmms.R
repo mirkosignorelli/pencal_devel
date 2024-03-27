@@ -85,6 +85,7 @@
 #'
 #' # step 2 of PRC-MLPMM: compute the summaries 
 #' step2 = summarize_mlpmms(object = step1, n.cores = n.cores)
+#' summary(step2)
 #' }
 
 summarize_mlpmms = function(object, n.cores = 1, verbose = TRUE) {
@@ -231,5 +232,6 @@ summarize_mlpmms = function(object, n.cores = 1, verbose = TRUE) {
     out[['ranef.boot.train']] = ranef.boot.train
     out[['ranef.boot.valid']] = ranef.boot.valid
   }
+  class(out) = 'ranefs'
   return(out)
 }
