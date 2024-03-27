@@ -110,7 +110,7 @@
 #' # estimated betas and variances for the 3rd marker:
 #' summary(step1, 'marker3', 'betas')
 #' summary(step1, 'marker3', 'variances')
-#' usual T table:
+#' # usual T table:
 #' summary(step1, 'marker3', 'tTable')
 
 fit_lmms = function(y.names, fixefs, ranefs, long.data, 
