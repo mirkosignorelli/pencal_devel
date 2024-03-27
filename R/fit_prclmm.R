@@ -343,8 +343,15 @@ fit_prclmm = function(object, surv.data, baseline.covs = NULL,
   # export results
   out = list('call' = call, 'pcox.orig' = pcox.orig,
             'surv.data' = surv.data, 'n.boots' = n.boots)
-  if (penalty %in% c('ridge', 'lasso')) out$tuning = c('lambda' = pcox.orig$lambda.min)
-  if (penalty == 'elasticnet') out$tuning = elnet.tuned
+  if (penalty %in% c('ridge', 'lasso')) {
+    out$tuning = data.frame(lambda = round(pcox.orig$lambda.min, 7),
+                      alpha = ifelse(penalty == 'lasso', 1, 0))
+  }
+  if (penalty == 'elasticnet') {
+    out$tuning = data.frame(lambda = round(elnet.tuned[2], 7), 
+                            alpha = round(elnet.tuned[1], 7))
+  }
+  rownames(out$tuning) = NULL
   if (n.boots >= 1) {
     out[['boot.ids']] = boot.ids
     out[['pcox.boot']] = pcox.boot
