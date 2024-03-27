@@ -80,6 +80,7 @@
 #' # step 2 of PRC-LMM: compute the summaries 
 #' # of the longitudinal outcomes
 #' step2 = summarize_lmms(object = step1, n.cores = n.cores)
+#' summary(step2)
 
 summarize_lmms = function(object, n.cores = 1, verbose = TRUE) {
   call = match.call()
@@ -284,6 +285,6 @@ summarize_lmms = function(object, n.cores = 1, verbose = TRUE) {
     out[['ranef.boot.train']] = ranef.boot.train
     out[['ranef.boot.valid']] = ranef.boot.valid
   }
-  class(out) = 'lmmsum'
+  class(out) = 'ranefs'
   return(out)
 }
