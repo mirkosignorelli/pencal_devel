@@ -7,6 +7,10 @@
 #' \code{\link{summarize_mlpmms}}
 #' @param step3 the output of \code{\link{fit_prclmm}} or \code{\link{fit_prcmlpmm}}
 #' 
+#' @export
+#' 
+#' #' @author Mirko Signorelli
+#' 
 #' @examples
 #' # generate example data
 #' simdata = simulate_prclmm_data(n = 100, p = 4, p.relev = 2, 
