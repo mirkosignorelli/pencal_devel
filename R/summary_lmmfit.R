@@ -11,6 +11,7 @@
 #' produced by `nlme`; `'variances'` for the estimates of 
 #' the variances (and covariances) of the random effects and of the
 #' variance of the error term
+#' @param ... additional arguments
 #' 
 #' @return A vector containing the estimated fixed-effect parameters if 
 #' `what = 'betas'`, the usual T table produced by `nlme` if `what = 'tTable'`,

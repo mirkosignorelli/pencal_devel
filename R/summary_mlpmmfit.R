@@ -6,6 +6,7 @@
 #' @param object the output of `fit_lmms`
 #' @param yname a character giving the name of one of the longitudinal
 #' outcomes modelled within one of the MLPMM
+#' @param ... additional arguments
 #' 
 #' @return The model summary as returned by `summary.multlcmm`
 #' 

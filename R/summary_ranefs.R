@@ -4,6 +4,7 @@
 #' and `summarize_mlpmms`
 #' 
 #' @param object the output of `summarize_lmms` or `summarize_mlpmms`
+#' @param ... additional arguments
 #' 
 #' @return Information about number of predicted random effects and sample size
 #' 
