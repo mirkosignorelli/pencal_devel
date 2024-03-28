@@ -40,3 +40,6 @@ step3 = fit_prclmm(object = step2, surv.data = simdata$surv.data,
 # visualize the predicted survival for subjects 1, 3, 7 and 13                    
 survplot_prc(step1, step2, step3, ids = c(1, 3, 7, 13), tmax = 6)
 }
+\author{
+Mirko Signorelli
+}

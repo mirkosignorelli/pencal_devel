@@ -9,7 +9,7 @@
 #' 
 #' @export
 #' 
-#' #' @author Mirko Signorelli
+#' @author Mirko Signorelli
 #' 
 #' @examples
 #' # generate example data
