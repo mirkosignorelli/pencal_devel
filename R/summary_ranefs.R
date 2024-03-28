@@ -4,6 +4,7 @@
 #' and `summarize_mlpmms`
 #' 
 #' @param object the output of `summarize_lmms` or `summarize_mlpmms`
+#' @param ... additional arguments
 #' 
 #' @return Information about number of predicted random effects and sample size
 #' 
@@ -24,7 +25,7 @@
 #' 
 #' @seealso \code{\link{summarize_lmms}}, \code{\link{summarize_mlpmms}}
 
-summary.ranefs = function(object) {
+summary.ranefs = function(object, ...) {
   dims = dim(object$ranef.orig)
   paste('Number of predicted random effect variables:', dims[2]) |> cat(); cat('\n')
   paste('Sample size:', dims[1]) |> cat()

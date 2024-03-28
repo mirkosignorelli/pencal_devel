@@ -6,6 +6,7 @@
 #' @param object the output of `fit_lmms`
 #' @param yname a character giving the name of one of the longitudinal
 #' outcomes modelled within one of the MLPMM
+#' @param ... additional arguments
 #' 
 #' @return The model summary as returned by `summary.multlcmm`
 #' 
@@ -27,7 +28,7 @@
 #' 
 #' @seealso \code{\link{fit_mlpmms}} and \code{\link{summary.multlcmm}}
 
-summary.mlpmmfit = function(object, yname) {
+summary.mlpmmfit = function(object, yname, ...) {
   if (!is.character(yname)) stop('yname should be a character value')
   ynames = object$call.info$y.names
   check = yname %in% do.call(c, ynames)

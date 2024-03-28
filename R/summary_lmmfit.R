@@ -11,6 +11,7 @@
 #' produced by `nlme`; `'variances'` for the estimates of 
 #' the variances (and covariances) of the random effects and of the
 #' variance of the error term
+#' @param ... additional arguments
 #' 
 #' @return A vector containing the estimated fixed-effect parameters if 
 #' `what = 'betas'`, the usual T table produced by `nlme` if `what = 'tTable'`,
@@ -35,7 +36,7 @@
 #' 
 #' @seealso \code{\link{fit_lmms}}
 
-summary.lmmfit = function(object, yname, what = 'betas') {
+summary.lmmfit = function(object, yname, what = 'betas', ...) {
   what = match.arg(what, choices = c('betas', 'tTable', 'variances'))
   ynames = object$call.info$y.names
   if (! yname %in% ynames) {
