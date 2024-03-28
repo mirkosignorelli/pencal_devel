@@ -5,7 +5,7 @@
 \title{Visualize survival predictions for a fitted PRC model}
 \usage{
 survplot_prc(step1, step2, step3, ids, tmax = 5, res = 0.01,
-  legend.inset = -0.3, legend.space = 1)
+  legend.title = "Subject", legend.inset = -0.3, legend.space = 1)
 }
 \arguments{
 \item{step1}{the output of \code{\link{fit_lmms}} or \code{\link{fit_mlpmms}}}
@@ -14,6 +14,14 @@ survplot_prc(step1, step2, step3, ids, tmax = 5, res = 0.01,
 \code{\link{summarize_mlpmms}}}
 
 \item{step3}{the output of \code{\link{fit_prclmm}} or \code{\link{fit_prcmlpmm}}}
+
+\item{tmax}{}
+
+\item{legend.title}{legend title}
+
+\item{legend.inset}{moves legend more to the left / right (default is -0.3)}
+
+\item{legend.space}{interspace between lines in the legend (default is 1)}
 }
 \description{
 Visualize survival predictions for a fitted PRC model
