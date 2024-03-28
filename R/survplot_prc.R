@@ -6,6 +6,15 @@
 #' @param step2 the output of \code{\link{summarize_lmms}} or
 #' \code{\link{summarize_mlpmms}}
 #' @param step3 the output of \code{\link{fit_prclmm}} or \code{\link{fit_prcmlpmm}}
+#' @param tmax 
+#' @param res
+#' @param legend.title legend title
+#' @param legend.inset moves legend more to the left / right (default is -0.3)
+#' @param legend.space interspace between lines in the legend (default is 1)
+#' 
+#' @export
+#' 
+#' @author Mirko Signorelli
 #' 
 #' @examples
 #' # generate example data
@@ -30,7 +39,7 @@
 #' survplot_prc(step1, step2, step3, ids = c(1, 3, 7, 13), tmax = 6)
 
 survplot_prc = function(step1, step2, step3, ids, tmax = 5, res = 0.01,
-                           legend.inset = -0.3, legend.space = 1) {
+                        legend.title = 'Subject', legend.inset = -0.3, legend.space = 1) {
   par.init = par()
   
   x = seq(0, tmax, by = res)
@@ -49,7 +58,7 @@ survplot_prc = function(step1, step2, step3, ids, tmax = 5, res = 0.01,
   # add legend
   par(xpd = T)
   legend(x = "right", inset=c(legend.inset, 0), y$id, 
-           title = 'subject', pch = 16,
+           title = legend.title, pch = 16,
            y.intersp = legend.space,
            col = 1:nrow(y), bty = 'n', cex = 1)
   # restore par values as they were
