@@ -40,7 +40,7 @@ simdata = simulate_prclmm_data(n = 100, p = 4, p.relev = 2,
              landmark = 2, seed = 123)
              
 # estimate the PRC-LMM model
-y.names = paste('marker', 1:p, sep = '')
+y.names = paste('marker', 1:4, sep = '')
 step1 = fit_lmms(y.names = y.names, 
                  fixefs = ~ age, ranefs = ~ age | id, 
                  long.data = simdata$long.data, 
