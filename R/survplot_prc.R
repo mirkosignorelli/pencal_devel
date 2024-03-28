@@ -6,8 +6,10 @@
 #' @param step2 the output of \code{\link{summarize_lmms}} or
 #' \code{\link{summarize_mlpmms}}
 #' @param step3 the output of \code{\link{fit_prclmm}} or \code{\link{fit_prcmlpmm}}
-#' @param tmax 
-#' @param res
+#' @param tmax maximum prediction time to consider for the chart. Default is 5
+#' @param res resolution at which to evaluate predictions for the chart. Default is 0.01
+#' @param lwd line width
+#' @param lty line type
 #' @param legend.title legend title
 #' @param legend.inset moves legend more to the left / right (default is -0.3)
 #' @param legend.space interspace between lines in the legend (default is 1)
@@ -38,7 +40,7 @@
 #' # visualize the predicted survival for subjects 1, 3, 7 and 13                    
 #' survplot_prc(step1, step2, step3, ids = c(1, 3, 7, 13), tmax = 6)
 
-survplot_prc = function(step1, step2, step3, ids, tmax = 5, res = 0.01,
+survplot_prc = function(step1, step2, step3, ids, tmax = 5, res = 0.01, lwd = 1, lty = 1,
                         legend.title = 'Subject', legend.inset = -0.3, legend.space = 1) {
   par.init = par()
   
@@ -48,10 +50,10 @@ survplot_prc = function(step1, step2, step3, ids, tmax = 5, res = 0.01,
   
   par(mar = c(4, 4, 2, 7))
   plot(x, y[1, -1], ylim = c(0, 1), xlab = 't', ylab = 'S(t)',
-       type = 'l', bty = 'L', col = 1)
+       type = 'l', bty = 'L', col = 1, lwd = lwd, lty = lty)
   if (length(ids) > 1) {
     for (i in 2:nrow(y)) {
-      points(x, y[i, -1], type = 'l', col = i)
+      points(x, y[i, -1], type = 'l', col = i, lwd = lwd, lty = lty)
     }
   }
   
