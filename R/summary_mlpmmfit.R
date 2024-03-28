@@ -27,7 +27,7 @@
 #' 
 #' @seealso \code{\link{fit_mlpmms}} and \code{\link{summary.multlcmm}}
 
-summary.mlpmmfit = function(object, yname) {
+summary.mlpmmfit = function(object, yname, ...) {
   if (!is.character(yname)) stop('yname should be a character value')
   ynames = object$call.info$y.names
   check = yname %in% do.call(c, ynames)

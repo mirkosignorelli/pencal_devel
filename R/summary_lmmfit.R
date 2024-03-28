@@ -35,7 +35,7 @@
 #' 
 #' @seealso \code{\link{fit_lmms}}
 
-summary.lmmfit = function(object, yname, what = 'betas') {
+summary.lmmfit = function(object, yname, what = 'betas', ...) {
   what = match.arg(what, choices = c('betas', 'tTable', 'variances'))
   ynames = object$call.info$y.names
   if (! yname %in% ynames) {

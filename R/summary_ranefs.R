@@ -24,7 +24,7 @@
 #' 
 #' @seealso \code{\link{summarize_lmms}}, \code{\link{summarize_mlpmms}}
 
-summary.ranefs = function(object) {
+summary.ranefs = function(object, ...) {
   dims = dim(object$ranef.orig)
   paste('Number of predicted random effect variables:', dims[2]) |> cat(); cat('\n')
   paste('Sample size:', dims[1]) |> cat()
