@@ -4,5 +4,5 @@
 
 \begin{document}
 \SweaveOpts{concordance=TRUE}
-\includepdf[pages=-, fitpaper=true]{pencal_vignette.pdf}
+\includepdf[pages=-, fitpaper=true]{pencal_RJournal_accepted.pdf}
 \end{document}
