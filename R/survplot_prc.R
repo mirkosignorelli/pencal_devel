@@ -20,6 +20,11 @@
 #' 
 #' @author Mirko Signorelli
 #' 
+#' @references 
+#' Signorelli, M. (2024). pencal: an R Package for the Dynamic 
+#' Prediction of Survival with Many Longitudinal Predictors. 
+#' To appear in: The R Journal. Preprint: arXiv:2309.15600
+#' 
 #' @examples
 #' # generate example data
 #' simdata = simulate_prclmm_data(n = 100, p = 4, p.relev = 2, 
