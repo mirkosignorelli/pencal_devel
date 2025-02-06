@@ -42,7 +42,7 @@
 #' the function \code{multlcmm}. Default is 100
 #' @param conv a vector containing the three convergence criteria
 #' (\code{convB}, \code{convL} and \code{convG}) to use when calling
-#' the function \code{\link{multlcmm}}. Default is c(1e-3, 1e-3, 1e-3)
+#' the function \code{\link{lcmm::multlcmm}}. Default is c(1e-3, 1e-3, 1e-3)
 #' @param lcmm.warnings logical. If TRUE, a warning is printed every 
 #' time the (strict) convergence criteria of the \code{multlcmm} function
 #' are not met. Default is \code{FALSE}
@@ -67,17 +67,17 @@
 #' }
 #' 
 #' @details This function is essentially a wrapper of the 
-#' \code{\link{multlcmm}} function that has the goal of simplifying
+#' \code{\link{lcmm::multlcmm}} that is meant to simplify
 #' the estimation of several MLPMMs. In general, ensuring 
 #' convergence of the algorithm implemented in \code{multlcmm}
 #' is sometimes difficult, and it is hard to write a function that
-#' can automatically solve these convergence problems. \code{fit_mplmms}
+#' can automatically solve all possible convergence problems. \code{fit_mplmms}
 #' returns a warning when estimation did not converge for one or 
 #' more MLPMMs. If this happens, try to change the convergence 
 #' criteria in \code{conv} or the relevant \code{randint.items} value.
 #' If doing this doesn't solve the problem, it is recommended to
 #' re-estimate the specific MLPMMs for which estimation didn't converge
-#' directly with \code{\link{multlcmm}}, trying to manually solve
+#' directly with \code{multlcmm}, trying to manually solve
 #' the convergence issues
 #' 
 #' @import foreach doParallel stats
