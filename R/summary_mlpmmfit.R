@@ -26,7 +26,7 @@
 #' high-dimensional data. Statistics in Medicine, 40 (27), 6178-6196.
 #' DOI: 10.1002/sim.9178
 #' 
-#' @seealso \code{\link{lcmm::fit_mlpmms}} and \code{\link{lcmm::summary.multlcmm}}
+#' @seealso \code{\link[lcmm]{fit_mlpmms}} and \code{\link[lcmm]{summary.multlcmm}}
 
 summary.mlpmmfit = function(object, yname, ...) {
   if (!is.character(yname)) stop('yname should be a character value')
