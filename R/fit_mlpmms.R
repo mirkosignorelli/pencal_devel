@@ -42,7 +42,7 @@
 #' the function \code{multlcmm}. Default is 100
 #' @param conv a vector containing the three convergence criteria
 #' (\code{convB}, \code{convL} and \code{convG}) to use when calling
-#' the function \code{\link{lcmm::multlcmm}}. Default is c(1e-3, 1e-3, 1e-3)
+#' the function \code{\link[lcmm]{multlcmm}}. Default is c(1e-3, 1e-3, 1e-3)
 #' @param lcmm.warnings logical. If TRUE, a warning is printed every 
 #' time the (strict) convergence criteria of the \code{multlcmm} function
 #' are not met. Default is \code{FALSE}
@@ -67,7 +67,7 @@
 #' }
 #' 
 #' @details This function is essentially a wrapper of the 
-#' \code{\link{lcmm::multlcmm}} that is meant to simplify
+#' \code{\link[lcmm]{multlcmm}} that is meant to simplify
 #' the estimation of several MLPMMs. In general, ensuring 
 #' convergence of the algorithm implemented in \code{multlcmm}
 #' is sometimes difficult, and it is hard to write a function that
