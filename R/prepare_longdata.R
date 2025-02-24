@@ -37,6 +37,13 @@
 #' DOI: 10.1002/sim.9178
 
 prepare_longdata = function(df, t.from.base, subj.id, survtime, verbose = TRUE) {
+  if (is(df)[1] != 'data.frame') {
+    mess = paste('It looks like the object you supplied may not be a dataframe,',
+                 'but something else (for example, a tibble).',
+                 'Please convert the object to data frame to avoid problems when',
+                 'running functions from pencal.')
+    warning(mess)
+  }
   id = df[ , deparse(substitute(subj.id))]
   time = df[ , t.from.base]
   id.vals = unique(id)
