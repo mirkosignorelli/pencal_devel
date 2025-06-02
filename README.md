@@ -8,7 +8,7 @@
 
 ## `pencal`: what's that?
 
-`pencal` is the `R` package that implements Penalized Regression Calibration (PRC), a statistical method that we proposed in Signorelli *et al.* (2021). [Penalized regression calibration: A method for the prediction of survival outcomes using complex longitudinal and high-dimensional data](https://onlinelibrary.wiley.com/doi/10.1002/sim.9178). *Statistics in Medicine*, 40 (27), 6178-6196. A detailed description of how to use PRC to do dynamic prediction of survival can be found in Signorelli (2024). [`pencal`: an `R` Package for the Dynamic Prediction of Survival with Many Longitudinal Predictors](https://cran.r-project.org/web/packages/pencal/vignettes/vignette.pdf). To appear in: *The `R` Journal*.
+`pencal` is the `R` package that implements Penalized Regression Calibration (PRC), a statistical method that we proposed in Signorelli *et al.* (2021). [Penalized regression calibration: A method for the prediction of survival outcomes using complex longitudinal and high-dimensional data](https://onlinelibrary.wiley.com/doi/10.1002/sim.9178). *Statistics in Medicine*, 40 (27), 6178-6196. A detailed description of how to use PRC to do dynamic prediction of survival can be found in Signorelli (2024). [`pencal`: an `R` Package for the Dynamic Prediction of Survival with Many Longitudinal Predictors]([https://cran.r-project.org/web/packages/pencal/vignettes/vignette.pdf](https://journal.r-project.org/articles/RJ-2024-014/)). *The `R` Journal*, 16 (2), 134-153.
 
 ## About this repository
 
@@ -45,4 +45,4 @@ devtools::install_github("mirkosignorelli/pencal_devel")
 More information on PRC can be found at the following pages:
 * [CRAN package page](https://cran.r-project.org/web/packages/pencal/index.html);
 * [my personal website](https://mirkosignorelli.github.io/r.html);
-* [vignette that illustrates with examples how to use `pencal`](https://cran.r-project.org/web/packages/pencal/vignettes/vignette.pdf).
+* [R Journal article about `pencal`](https://journal.r-project.org/articles/RJ-2024-014/).
