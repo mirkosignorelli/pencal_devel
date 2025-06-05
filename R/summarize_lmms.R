@@ -1,7 +1,7 @@
 #' Step 2 of PRC-LMM (computation of the predicted random effects)
 #'
 #' This function performs the second step for the estimation
-#' of the PRC-LMM model proposed in Signorelli et al. (2021)
+#' of the PRC-LMM model (see references for methodological details).
 #' 
 #' @param object a list of objects as produced by \code{\link{fit_lmms}}
 #' @param n.cores number of cores to use to parallelize part of
@@ -34,14 +34,13 @@
 #' @references 
 #' Signorelli, M. (2024). pencal: an R Package for the Dynamic 
 #' Prediction of Survival with Many Longitudinal Predictors. 
-#' To appear in: The R Journal. Preprint: arXiv:2309.15600
+#' The R Journal, 16 (2), 134-153.
 #' 
 #' Signorelli, M., Spitali, P., Al-Khalili Szigyarto, C, 
 #' The MARK-MD Consortium, Tsonaka, R. (2021). 
 #' Penalized regression calibration: a method for the prediction 
 #' of survival outcomes using complex longitudinal and 
 #' high-dimensional data. Statistics in Medicine, 40 (27), 6178-6196.
-#' DOI: 10.1002/sim.9178
 #' 
 #' @seealso \code{\link{fit_lmms}} (step 1), 
 #' \code{\link{fit_prclmm}} (step 3),

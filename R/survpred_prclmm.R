@@ -2,8 +2,7 @@
 #' from the PRC models
 #'
 #' This function computes the predicted survival probabilities 
-#' for the for the PRC-LMM model proposed 
-#' in Signorelli et al. (2021)
+#' for the for the PRC-LMM model (see references for methodological details)
 #' 
 #' @param step1 the output of \code{\link{fit_lmms}} (step 1
 #' of the estimation of PRC-LMM)
@@ -38,14 +37,13 @@
 #' @references 
 #' Signorelli, M. (2024). pencal: an R Package for the Dynamic 
 #' Prediction of Survival with Many Longitudinal Predictors. 
-#' To appear in: The R Journal. Preprint: arXiv:2309.15600
+#' The R Journal, 16 (2), 134-153.
 #' 
 #' Signorelli, M., Spitali, P., Al-Khalili Szigyarto, C, 
 #' The MARK-MD Consortium, Tsonaka, R. (2021). 
 #' Penalized regression calibration: a method for the prediction 
 #' of survival outcomes using complex longitudinal and 
 #' high-dimensional data. Statistics in Medicine, 40 (27), 6178-6196.
-#' DOI: 10.1002/sim.9178
 #' 
 #' @seealso \code{\link{fit_lmms}} (step 1),
 #' \code{\link{summarize_lmms}} (step 2) and 

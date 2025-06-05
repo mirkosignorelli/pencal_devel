@@ -1,7 +1,7 @@
 #' Step 1 of PRC-LMM (estimation of the linear mixed models)
 #'
 #' This function performs the first step for the estimation
-#' of the PRC-LMM model proposed in Signorelli et al. (2021)
+#' of the PRC-LMM model (see references for details)
 #' 
 #' @param y.names character vector with the names of the
 #' response variables which the LMMs have to be fitted to
@@ -64,14 +64,13 @@
 #' @references 
 #' Signorelli, M. (2024). pencal: an R Package for the Dynamic 
 #' Prediction of Survival with Many Longitudinal Predictors. 
-#' To appear in: The R Journal. Preprint: arXiv:2309.15600
+#' The R Journal, 16 (2), 134-153.
 #' 
 #' Signorelli, M., Spitali, P., Al-Khalili Szigyarto, C, 
 #' The MARK-MD Consortium, Tsonaka, R. (2021). 
 #' Penalized regression calibration: a method for the prediction 
 #' of survival outcomes using complex longitudinal and 
 #' high-dimensional data. Statistics in Medicine, 40 (27), 6178-6196.
-#' DOI: 10.1002/sim.9178
 #' 
 #' @seealso \code{\link{simulate_prclmm_data}},
 #' \code{\link{summarize_lmms}} (step 2),
