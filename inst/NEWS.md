@@ -22,7 +22,8 @@ Each subsection corresponds to a specific package version.
 -   The vignette of the package is now [published in *The R
     Journal*](https://journal.r-project.org/articles/RJ-2024-014/)
 -   Updated DESCRIPTION and CITATION files
--   Updated documentation
+-   Documentation updated
+-   Vignette updated
 
 # 2.2.x
 
