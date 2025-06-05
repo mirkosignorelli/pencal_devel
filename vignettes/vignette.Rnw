@@ -4,5 +4,5 @@
 
 \begin{document}
 \SweaveOpts{concordance=TRUE}
-\includepdf[pages=-, fitpaper=true]{Signorelli2024-pencal.pdf}
+\includepdf[pages=-, fitpaper=true]{Signorelli2024-compressed.pdf}
 \end{document}
