@@ -1,4 +1,22 @@
-citHeader("To cite ptmixed in publications use:")
+citHeader("To cite pencal in publications, please use:")
+
+bibentry(
+  bibtype = "Article",
+  title = "pencal: an R Package for the Dynamic Prediction of Survival with Many Longitudinal Predictors",
+  author   = c(person("M. Signorelli")),
+  journal  = "The R Journal",
+  year     = "2024",
+  volume = "16",
+  number = "2",
+  pages = "134--153",
+  url      = "https://doi.org/10.32614/RJ-2024-014",
+  textVersion = paste(
+	"Signorelli, M. (2024).",
+  "pencal: an R Package for the Dynamic Prediction of Survival with Many Longitudinal Predictors",
+  "The R Journal, 16 (2), 134-153.",
+  "URL https://doi.org/10.32614/RJ-2024-014"
+  )
+)
 
 bibentry(
   bibtype = "Article",
@@ -15,7 +33,7 @@ bibentry(
   textVersion = paste(
 	"Signorelli, M., Spitali, P., Al-Khalili Szigyarto, C., The MARK-MD Consortium, Tsonaka, R. (2021).",
         "Penalized regression calibration: A method for the prediction of survival outcomes using complex longitudinal and high-dimensional data",
-        "Statistics in Medicine, 40 (27), 6178-6196",
+        "Statistics in Medicine, 40 (27), 6178-6196.",
         "URL https://doi.org/10.1002/sim.9178"
   )
 )
