@@ -14,6 +14,74 @@ package - in other words, within a section you will find all those
 package versions a.b.x where a and b are fixed whereas x = 1, 2, 3, …
 Each subsection corresponds to a specific package version.
 
+# 2.3.x
+
+## pencal 2.3.0
+
+-   Released: June 2025
+-   The vignette of the package is now [published in *The R
+    Journal*](https://journal.r-project.org/articles/RJ-2024-014/)
+-   Updated DESCRIPTION and CITATION files
+-   Updated documentation
+
+# 2.2.x
+
+## pencal 2.2.4
+
+-   Released: March 2025
+-   Added warning if input of `prepare_longdata` is not a dataframe
+-   Removed patch introduced in version 2.2.3 because the problems in
+    `lcmm` that broke the examples have been fixed
+
+## pencal 2.2.3
+
+-   Released: February 2025
+-   Fixed CRAN notes on package anchors in documentation links
+-   Added patch (`run = FALSE`) to examples in `?fit_mlpmms`,
+    `?summarize_mlpmms` and `?fit_prcmlpmm`: some changes have been
+    introduced in `lcmm` version 2.2.0 which make the example with
+    `fit_mlpmms` break. It’s unclear why this is happening, and it may
+    take some time until the problem is solved. Until the source of the
+    problem is found, the examples for the PRC MLPMM approach may fail
+    to work. The PRC LMM approach is still completely functional.
+
+## pencal 2.2.2
+
+-   Released: June 2024
+-   Updated vignette with article version accepted by The R Journal
+-   Updated citations in documentation and CITATIOn file
+
+## pencal 2.2.1
+
+-   Released: March 2024
+-   `getlmm` and `getmlpmm` functions have been replaced by two `S3`
+    classes with `summary` methods
+-   S3 classes and `summary` methods added for the output of steps 2
+-   Tuning parameter added to the `summary` methods for step 3
+-   `fitted_prclmm` and `fitted_prcmlpmm` objects have been refitted
+-   Added `survplot_prc` function
+-   Updated documentation
+-   Updated DESCRIPTION and CITATION files
+
+# 2.1.x
+
+## pencal 2.1.1
+
+-   Released: October 2023
+-   Vignette updated with arXiv preprint number
+-   Updated documentation
+-   Updated DESCRIPTION and CITATION files
+
+## pencal 2.1.0
+
+-   Released: September 2023
+-   Added NEW, more comprehensive vignette
+-   Added `landmark` argument to `simulate_prclmm_data` and
+    `simulate_prcmlpmm_data`. Examples updated accordingly and refitted
+    `fit_prclmm` and `fit_prcmlpmm`
+-   Updated examples in `survpred_prclmm`, `survpred_prcmlpmm`,
+    `performance_pencox` and `performance_pencox`
+
 # 2.0.x
 
 ## pencal 2.0.1

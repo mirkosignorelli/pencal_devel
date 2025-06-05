@@ -132,9 +132,6 @@
 #'   y.names[[i]] = paste('marker', i, '_', 1:n.items[i], sep = '')
 #' }
 #' 
-#' # temporary patch v 2.2.3 (see NEWS file):
-#' run = FALSE
-#' if (run) {
 #' step1 = fit_mlpmms(y.names, fixefs = ~ contrast(age),  
 #'                  ranef.time = age, randint.items = TRUE, 
 #'                  long.data = simdata$long.data, 
@@ -144,7 +141,6 @@
 #'
 #' # print MLPMM summary for marker 5 (all items involved in that MLPMM):
 #' summary(step1, 'marker5_2')
-#' }
 #' }
 
 fit_mlpmms = function(y.names, fixefs, ranef.time, 
