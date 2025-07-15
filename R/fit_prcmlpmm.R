@@ -1,9 +1,9 @@
-#' Step 3 of PRC-MLPMM (estimation of the penalized Cox model(s))
+#' Step 3 of PRC MLPMM (estimation of the penalized Cox model(s))
 #'
 #' This function performs the third step for the estimation
-#' of the PRC-MLPMM model proposed in Signorelli et al. (2021)
+#' of the PRC MLPMM model proposed in Signorelli et al. (2021)
 #' 
-#' @param object the output of step 2 of the PRC-MLPMM procedure, 
+#' @param object the output of step 2 of the PRC MLPMM estimation procedure, 
 #' as produced by the \code{\link{summarize_mlpmms}} function
 #' @param surv.data a data frame with the survival data and (if 
 #' relevant) additional baseline covariates. \code{surv.data} should at least

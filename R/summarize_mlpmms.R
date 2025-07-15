@@ -1,7 +1,7 @@
-#' Step 2 of PRC-MLPMM (computation of the predicted random effects)
+#' Step 2 of PRC MLPMM (computation of the predicted random effects)
 #'
 #' This function performs the second step for the estimation
-#' of the PRC-MLPMM model proposed in Signorelli et al. (2021)
+#' of the PRC MLPMM model proposed in Signorelli et al. (2021)
 #' 
 #' @param object a list of objects as produced by \code{\link{fit_mlpmms}}
 #' @param n.cores number of cores to use to parallelize part of

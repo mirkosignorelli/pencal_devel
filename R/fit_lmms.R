@@ -1,7 +1,7 @@
-#' Step 1 of PRC-LMM (estimation of the linear mixed models)
+#' Step 1 of PRC LMM (estimation of the linear mixed models)
 #'
 #' This function performs the first step for the estimation
-#' of the PRC-LMM model (see references for details)
+#' of the PRC LMM model (see references for details)
 #' 
 #' @param y.names character vector with the names of the
 #' response variables which the LMMs have to be fitted to

@@ -1,7 +1,7 @@
-#' Step 2 of PRC-LMM (computation of the predicted random effects)
+#' Step 2 of PRC LMM (computation of the predicted random effects)
 #'
 #' This function performs the second step for the estimation
-#' of the PRC-LMM model (see references for methodological details).
+#' of the PRC LMM model (see references for methodological details).
 #' 
 #' @param object a list of objects as produced by \code{\link{fit_lmms}}
 #' @param n.cores number of cores to use to parallelize part of

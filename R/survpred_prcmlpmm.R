@@ -1,8 +1,8 @@
 #' Compute the predicted survival probabilities obtained
-#' from the PRC models
+#' from the PRC MLPMM models
 #'
 #' This function computes the predicted survival probabilities 
-#' for the for the PRC-MLPMM(U) and PRC-MLPMM(U+B) models proposed 
+#' for the for the PRC MLPMM(U) and PRC MLPMM(U+B) models proposed 
 #' in Signorelli et al. (2021)
 #' 
 #' @param step2 the output of \code{\link{summarize_mlpmms}} 

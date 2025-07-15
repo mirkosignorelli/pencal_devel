@@ -1,8 +1,8 @@
 #' Compute the predicted survival probabilities obtained
-#' from the PRC models
+#' from the PRC LMM model
 #'
 #' This function computes the predicted survival probabilities 
-#' for the for the PRC-LMM model (see references for methodological details)
+#' for the for the PRC LMM model (see references for methodological details)
 #' 
 #' @param step1 the output of \code{\link{fit_lmms}} (step 1
 #' of the estimation of PRC-LMM)

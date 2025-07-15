@@ -24,6 +24,8 @@
 #' }
 #' 
 #' @author Mirko Signorelli
+#' @references 
+#' Therneau T., Grambsch P. (2000). Modeling Survival Data: Extending the Cox Model. Springer-Verlag.
 #' 
 #' @examples 
 #' data(pbc2data)
@@ -33,7 +35,7 @@
 #'
 #' A fitted PRC LMM
 #'
-#' This list contains a fitted PRC LMM, where the CBOCP is
+#' This list contains a fitted PRC LMM model, where the CBOCP is
 #' computed using 50 cluster bootstrap samples. It is
 #' used to reduce the computing time in the example of
 #' the function \code{performance_prc}. The simulated dataset 
@@ -52,6 +54,12 @@
 #' Prediction of Survival with Many Longitudinal Predictors. 
 #' The R Journal, 16 (2), 134-153.
 #' 
+#' Signorelli, M., Spitali, P., Al-Khalili Szigyarto, C, 
+#' The MARK-MD Consortium, Tsonaka, R. (2021). 
+#' Penalized regression calibration: a method for the prediction 
+#' of survival outcomes using complex longitudinal and 
+#' high-dimensional data. Statistics in Medicine, 40 (27), 6178-6196.
+#' 
 #' @seealso \code{\link{performance_prc}}
 #' 
 #' @examples 
@@ -61,7 +69,7 @@
 #'
 #' A fitted PRC MLPMM
 #'
-#' This list contains a fitted PRC MLPMM. It is
+#' This list contains a fitted PRC MLPMM model. It is
 #' used to reduce the computing time in the example of
 #' the function \code{survpred_prcmlpmm}. The simulated dataset 
 #' on which the model was fitted was landmarked at t = 2.
@@ -74,7 +82,11 @@
 #' during the estimation of a PRC MLPMM
 #' 
 #' @author Mirko Signorelli
-#' @references 
+#' @references
+#' Signorelli, M. (2024). pencal: an R Package for the Dynamic 
+#' Prediction of Survival with Many Longitudinal Predictors. 
+#' The R Journal, 16 (2), 134-153.
+#' 
 #' Signorelli, M., Spitali, P., Al-Khalili Szigyarto, C, 
 #' The MARK-MD Consortium, Tsonaka, R. (2021). 
 #' Penalized regression calibration: a method for the prediction 

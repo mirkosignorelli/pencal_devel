@@ -1,4 +1,4 @@
-#' Simulate data that can be used to fit the PRC-LMM model
+#' Simulate data that can be used to fit the PRC LMM model
 #'
 #' This function allows to simulate a survival outcome
 #' from longitudinal predictors following the PRC LMM model
