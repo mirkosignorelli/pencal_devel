@@ -121,7 +121,7 @@ performance_prc = function(step2, step3, metric = c('tdauc', 'c', 'brier'),
   pcox.orig = step3$pcox.orig
   surv.data = step3$surv.data
   n = length(unique(surv.data$id))
-  if (max(times) >= max(surv.data$time)) {
+  if (max(times) > max(surv.data$time)) {
     warning(paste('Some of the prediction times are larger than the larger event time in the dataset.',
                 'Keep in mind that predictions at those times are an extrapolation',
                 'that goes beyond the available data'))
