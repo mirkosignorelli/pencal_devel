@@ -122,8 +122,9 @@ performance_prc = function(step2, step3, metric = c('tdauc', 'c', 'brier'),
   surv.data = step3$surv.data
   n = length(unique(surv.data$id))
   if (max(times) >= max(surv.data$time)) {
-    stop(paste('Some of the prediction times are larger than the larger event time in the dataset.',
-                'Edit the times argument as appropriate'))
+    warning(paste('Some of the prediction times are larger than the larger event time in the dataset.',
+                'Keep in mind that predictions at those times are an extrapolation',
+                'that goes beyond the available data'))
   }
   # further checks
   if (step2$n.boots != step3$n.boots) {
