@@ -122,6 +122,11 @@ performance_pencox = function(fitted_pencox, metric = c('tdauc', 'c', 'brier'),
   n = length(unique(surv.data$id))
   n.boots = fitted_pencox$n.boots
   # further checks
+  if (max(times) > max(surv.data$time)) {
+    warning(paste('Some of the prediction times are larger than the larger event time in the dataset.',
+                  'Keep in mind that predictions at those times are an extrapolation',
+                  'that goes beyond the available data'))
+  }
   if (n.boots == 0) {
     mess = paste('The bootstrap optimism correction has not',
             'been performed (n.boots = 0). Therefore, only the apparent',
