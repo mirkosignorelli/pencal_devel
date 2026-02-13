@@ -109,8 +109,10 @@ summarize_lmms = function(object, n.cores = 1, verbose = TRUE) {
   if (n.boots > 0) {
     extra.inputs = c('boot.ids', 'lmm.fits.boot')
     check2 = extra.inputs %in% ls(object)
-    mess = paste('At least one of the following elements is missing in object:',
-                 paste(extra.inputs, collapse = ', '))
+    mess = paste0('At least one of the following elements is missing in object: ',
+                 paste(extra.inputs, collapse = ', '), 
+                 ". Did you maybe alter the output of fit_lmms? (Pls don't)")
+    if (check2) stop(mess)
   }
   if (n.cores < 1) {
     warning('Input n.cores < 1, so we set n.cores = 1', immediate. = TRUE)
