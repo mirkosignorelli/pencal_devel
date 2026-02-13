@@ -37,7 +37,7 @@ You can install the development version of pencal from [GitHub](https://github.c
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("mirkosignorelli/pencal_devel")
+devtools::install_github("mirkosignorelli/pencal_devel", build_vignettes = T)
 ```
 
 ## Further information
