@@ -69,6 +69,12 @@ survpred_prcmlpmm = function(step2, step3, times = 1) {
   pcox.orig = step3$pcox.orig
   surv.data = step3$surv.data
   n = length(unique(surv.data$id))
+  # check that largest pred time <= largest observed time
+  maxTobs = max(step3$surv.data$time)
+  check3 = (max(times) > maxTobs)
+  mess3 = paste('The largest prediction time is bigger than the max observed time.',
+                'The Cox model cannot meaningfully predict beyond the largest observed time.')
+  if (check5) warning(mess3)
   
   ###############################
   ##### COMPUTE PREDICTIONS #####
