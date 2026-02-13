@@ -145,6 +145,12 @@ survpred_prclmm = function(step1, step2, step3,
   pcox.orig = step3$pcox.orig
   surv.data = step3$surv.data
   n = length(unique(surv.data$id))
+  # check that largest pred time <= largest observed time
+  maxTobs = max(step3$surv.data$time)
+  check5 = (max(times) > maxTobs)
+  mess5 = paste('The largest prediction time is bigger than the max observed time.',
+                'The Cox model cannot meaningfully predict beyond the largest observed time.')
+  if (check5) warning(mess5)
   
   ###############################
   ### PRED RANEF WITH newdata ###
@@ -169,13 +175,13 @@ survpred_prclmm = function(step1, step2, step3,
         y = new.df[ , y.names[j]]
       }
       # check that we didn't lose subjects
-      check5 = (length(unique(new.df$id)) == n)
-      if (!check5) {
+      check6 = (length(unique(new.df$id)) == n)
+      if (!check6) {
         lost_ids = setdiff(new.longdata$id, new.df$id)
-        mess5 = paste('Variable ', y.names[j], ': all values are NA for at least 1 subject.', 
+        mess6 = paste('Variable ', y.names[j], ': all values are NA for at least 1 subject.', 
                      'Predictions obtained by setting predicted random effects for such subjects = 0 (population average)',
                      sep = '')
-        warning(mess5)
+        warning(mess6)
       }
       # retrieve the right pieces from lmm
       D.hat = getVarCov(lmms[[j]], type = 'random.effects')
