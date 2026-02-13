@@ -166,8 +166,8 @@ fit_prclmm = function(object, surv.data, baseline.covs = NULL,
               with care', immediate. = TRUE) 
     }
   }
-  check8 = is.logical(standardize)
-  if (!check8) stop('standardize must be a logical argument (T / F)')
+  check4 = is.logical(standardize)
+  if (!check4) stop('standardize must be a logical argument (T / F)')
   if (n.cores < 1) {
     warning('Input n.cores < 1, so we set n.cores = 1', immediate. = TRUE)
     n.cores = 1
