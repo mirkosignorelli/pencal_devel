@@ -157,17 +157,17 @@ fit_lmms = function(y.names, fixefs, ranefs, long.data,
   if (verbose) cat('Sorting long.data by subject id\n')
   long.data = dplyr::arrange(long.data, id)
   # get survival data
-  check2 = is.data.frame(surv.data)
-  if (!check2) stop('surv.data should be a dataframe')
-  check3 = c('id', 'time', 'event') %in% names(surv.data)
-  if (sum(check3) != 3) stop("surv.data should contain at least: 'id', 'time', 'event' variables")
+  check3 = is.data.frame(surv.data)
+  if (!check3) stop('surv.data should be a dataframe')
+  check4 = c('id', 'time', 'event') %in% names(surv.data)
+  if (sum(check4) != 3) stop("surv.data should contain at least: 'id', 'time', 'event' variables")
   if (verbose) cat('Sorting surv.data by subject id\n')
   surv.data = dplyr::arrange(surv.data, id)
   # check that id values are the same in the two datasets!
   temp1 = as.character(unique(long.data$id))
   temp2 = as.character(unique(surv.data$id))
-  check4 = identical(temp1, temp2)
-  if (!check4) stop('id values are different in long.data and surv.data')  
+  check5 = identical(temp1, temp2)
+  if (!check5) stop('id values are different in long.data and surv.data')  
   # remove all longitudinal measurements after t
   t.from.base = deparse(substitute(t.from.base))
   temp = prepare_longdata(df = long.data, subj.id = id, 
