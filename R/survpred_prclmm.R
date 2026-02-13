@@ -1,9 +1,8 @@
 #' Compute the predicted survival probabilities obtained
-#' from the PRC models
+#' from the PRC LMM model
 #'
 #' This function computes the predicted survival probabilities 
-#' for the for the PRC-LMM model proposed 
-#' in Signorelli et al. (2021)
+#' for the for the PRC LMM model (see references for methodological details)
 #' 
 #' @param step1 the output of \code{\link{fit_lmms}} (step 1
 #' of the estimation of PRC-LMM)
@@ -38,14 +37,13 @@
 #' @references 
 #' Signorelli, M. (2024). pencal: an R Package for the Dynamic 
 #' Prediction of Survival with Many Longitudinal Predictors. 
-#' To appear in: The R Journal. Preprint: arXiv:2309.15600
+#' The R Journal, 16 (2), 134-153.
 #' 
 #' Signorelli, M., Spitali, P., Al-Khalili Szigyarto, C, 
 #' The MARK-MD Consortium, Tsonaka, R. (2021). 
 #' Penalized regression calibration: a method for the prediction 
 #' of survival outcomes using complex longitudinal and 
 #' high-dimensional data. Statistics in Medicine, 40 (27), 6178-6196.
-#' DOI: 10.1002/sim.9178
 #' 
 #' @seealso \code{\link{fit_lmms}} (step 1),
 #' \code{\link{summarize_lmms}} (step 2) and 
@@ -114,18 +112,17 @@ survpred_prclmm = function(step1, step2, step3,
   # checks on step 1 input
   temp = c('call.info', 'lmm.fits.orig', 'df.sanitized', 'n.boots')
   check1 = temp %in% ls(step1)
-  mess = paste('step1 input should contain:',
+  mess1 = paste('step1 input should contain:',
                paste(temp, collapse = ', '))
-  if (!all(check1, TRUE)) stop(mess)
+  if (!all(check1, TRUE)) stop(mess1)
   if (!is.null(new.longdata)) {
     new.longdata = new.longdata[order(new.longdata$id), ]
     vars = c(step1$call.info$y.names, 
              all.vars(step1$call.info$fixes),
              all.vars(step1$call.info$ranefs))
-    check = all(vars %in% names(step1$df.sanitized), T)
-    if (!check) {
-      mess = 'new.longdata does not contain all variables employed in step 1'
-      stop(mess)
+    check2 = all(vars %in% names(step1$df.sanitized), T)
+    if (!check2) {
+      stop('new.longdata does not contain all variables employed in step 1')
     }
     if (!is.null(new.basecovs)) {
       new.basecovs = new.basecovs[order(new.basecovs$id), ]
@@ -134,20 +131,26 @@ survpred_prclmm = function(step1, step2, step3,
   
   # checks on step 2 input
   temp = c('call', 'ranef.orig', 'n.boots')
-  check1 = temp %in% ls(step2)
-  mess1 = paste('step2 input should contain:', do.call(paste, as.list(temp)) )
-  if (sum(check1) != 3) stop(mess1)
+  check3 = temp %in% ls(step2)
+  mess3 = paste('step2 input should contain:', do.call(paste, as.list(temp)) )
+  if (sum(check3) != 3) stop(mess3)
   ranef.orig = step2$ranef.orig
   
   # checks on step 3 input
   temp = c('call', 'pcox.orig', 'surv.data', 'n.boots')
-  check2 = temp %in% ls(step3)
-  mess2 = paste('step2 input should contain:', do.call(paste, as.list(temp)) )
-  if (sum(check2) != 4) stop(mess2)
+  check4 = temp %in% ls(step3)
+  mess4 = paste('step2 input should contain:', do.call(paste, as.list(temp)) )
+  if (sum(check4) != 4) stop(mess4)
   baseline.covs = eval(step3$call$baseline.covs)
   pcox.orig = step3$pcox.orig
   surv.data = step3$surv.data
   n = length(unique(surv.data$id))
+  # check that largest pred time <= largest observed time
+  maxTobs = max(step3$surv.data$time)
+  check5 = (max(times) > maxTobs)
+  mess5 = paste('The largest prediction time is bigger than the max observed time.',
+                'The Cox model cannot meaningfully predict beyond the largest observed time.')
+  if (check5) warning(mess5)
   
   ###############################
   ### PRED RANEF WITH newdata ###
@@ -172,13 +175,13 @@ survpred_prclmm = function(step1, step2, step3,
         y = new.df[ , y.names[j]]
       }
       # check that we didn't lose subjects
-      check = (length(unique(new.df$id)) == n)
-      if (!check) {
+      check6 = (length(unique(new.df$id)) == n)
+      if (!check6) {
         lost_ids = setdiff(new.longdata$id, new.df$id)
-        mess = paste('Variable ', y.names[j], ': all values are NA for at least 1 subject.', 
+        mess6 = paste('Variable ', y.names[j], ': all values are NA for at least 1 subject.', 
                      'Predictions obtained by setting predicted random effects for such subjects = 0 (population average)',
                      sep = '')
-        warning(mess)
+        warning(mess6)
       }
       # retrieve the right pieces from lmm
       D.hat = getVarCov(lmms[[j]], type = 'random.effects')

@@ -1,7 +1,7 @@
-#' Step 1 of PRC-LMM (estimation of the linear mixed models)
+#' Step 1 of PRC LMM (estimation of the linear mixed models)
 #'
 #' This function performs the first step for the estimation
-#' of the PRC-LMM model proposed in Signorelli et al. (2021)
+#' of the PRC LMM model (see references for details)
 #' 
 #' @param y.names character vector with the names of the
 #' response variables which the LMMs have to be fitted to
@@ -64,14 +64,13 @@
 #' @references 
 #' Signorelli, M. (2024). pencal: an R Package for the Dynamic 
 #' Prediction of Survival with Many Longitudinal Predictors. 
-#' To appear in: The R Journal. Preprint: arXiv:2309.15600
+#' The R Journal, 16 (2), 134-153.
 #' 
 #' Signorelli, M., Spitali, P., Al-Khalili Szigyarto, C, 
 #' The MARK-MD Consortium, Tsonaka, R. (2021). 
 #' Penalized regression calibration: a method for the prediction 
 #' of survival outcomes using complex longitudinal and 
 #' high-dimensional data. Statistics in Medicine, 40 (27), 6178-6196.
-#' DOI: 10.1002/sim.9178
 #' 
 #' @seealso \code{\link{simulate_prclmm_data}},
 #' \code{\link{summarize_lmms}} (step 2),
@@ -158,17 +157,17 @@ fit_lmms = function(y.names, fixefs, ranefs, long.data,
   if (verbose) cat('Sorting long.data by subject id\n')
   long.data = dplyr::arrange(long.data, id)
   # get survival data
-  check2 = is.data.frame(surv.data)
-  if (!check2) stop('surv.data should be a dataframe')
-  check3 = c('id', 'time', 'event') %in% names(surv.data)
-  if (sum(check3) != 3) stop("surv.data should contain at least: 'id', 'time', 'event' variables")
+  check3 = is.data.frame(surv.data)
+  if (!check3) stop('surv.data should be a dataframe')
+  check4 = c('id', 'time', 'event') %in% names(surv.data)
+  if (sum(check4) != 3) stop("surv.data should contain at least: 'id', 'time', 'event' variables")
   if (verbose) cat('Sorting surv.data by subject id\n')
   surv.data = dplyr::arrange(surv.data, id)
   # check that id values are the same in the two datasets!
   temp1 = as.character(unique(long.data$id))
   temp2 = as.character(unique(surv.data$id))
-  check4 = identical(temp1, temp2)
-  if (!check4) stop('id values are different in long.data and surv.data')  
+  check5 = identical(temp1, temp2)
+  if (!check5) stop('id values are different in long.data and surv.data')  
   # remove all longitudinal measurements after t
   t.from.base = deparse(substitute(t.from.base))
   temp = prepare_longdata(df = long.data, subj.id = id, 

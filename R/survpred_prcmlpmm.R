@@ -1,8 +1,8 @@
 #' Compute the predicted survival probabilities obtained
-#' from the PRC models
+#' from the PRC MLPMM models
 #'
 #' This function computes the predicted survival probabilities 
-#' for the for the PRC-MLPMM(U) and PRC-MLPMM(U+B) models proposed 
+#' for the for the PRC MLPMM(U) and PRC MLPMM(U+B) models proposed 
 #' in Signorelli et al. (2021)
 #' 
 #' @param step2 the output of \code{\link{summarize_mlpmms}} 
@@ -22,14 +22,13 @@
 #' @references 
 #' Signorelli, M. (2024). pencal: an R Package for the Dynamic 
 #' Prediction of Survival with Many Longitudinal Predictors. 
-#' To appear in: The R Journal. Preprint: arXiv:2309.15600
+#' The R Journal, 16 (2), 134-153.
 #' 
 #' Signorelli, M., Spitali, P., Al-Khalili Szigyarto, C, 
 #' The MARK-MD Consortium, Tsonaka, R. (2021). 
 #' Penalized regression calibration: a method for the prediction 
 #' of survival outcomes using complex longitudinal and 
 #' high-dimensional data. Statistics in Medicine, 40 (27), 6178-6196.
-#' DOI: 10.1002/sim.9178
 #' 
 #' @seealso \code{\link{fit_mlpmms}} (step 1),
 #' \code{\link{summarize_mlpmms}} (step 2) and 
@@ -70,6 +69,12 @@ survpred_prcmlpmm = function(step2, step3, times = 1) {
   pcox.orig = step3$pcox.orig
   surv.data = step3$surv.data
   n = length(unique(surv.data$id))
+  # check that largest pred time <= largest observed time
+  maxTobs = max(step3$surv.data$time)
+  check3 = (max(times) > maxTobs)
+  mess3 = paste('The largest prediction time is bigger than the max observed time.',
+                'The Cox model cannot meaningfully predict beyond the largest observed time.')
+  if (check5) warning(mess3)
   
   ###############################
   ##### COMPUTE PREDICTIONS #####

@@ -1,4 +1,4 @@
-#' Simulate data that can be used to fit the PRC-LMM model
+#' Simulate data that can be used to fit the PRC MLPMM model
 #'
 #' This function allows to simulate a survival outcome
 #' from longitudinal predictors following the PRC MLPMM model
@@ -62,14 +62,13 @@
 #' @references 
 #' Signorelli, M. (2024). pencal: an R Package for the Dynamic 
 #' Prediction of Survival with Many Longitudinal Predictors. 
-#' To appear in: The R Journal. Preprint: arXiv:2309.15600
+#' The R Journal, 16 (2), 134-153.
 #' 
 #' Signorelli, M., Spitali, P., Al-Khalili Szigyarto, C, 
 #' The MARK-MD Consortium, Tsonaka, R. (2021). 
 #' Penalized regression calibration: a method for the prediction 
 #' of survival outcomes using complex longitudinal and 
 #' high-dimensional data. Statistics in Medicine, 40 (27), 6178-6196.
-#' DOI: 10.1002/sim.9178
 #' 
 #' @examples
 #' # generate example data

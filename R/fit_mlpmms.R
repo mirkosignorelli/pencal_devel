@@ -1,7 +1,7 @@
-#' Step 1 of PRC-MLPMM (estimation of the linear mixed models)
+#' Step 1 of PRC MLPMM (estimation of the linear mixed models)
 #'
 #' This function performs the first step for the estimation
-#' of the PRC-MLPMM model proposed in Signorelli et al. (2021)
+#' of the PRC MLPMM model proposed in Signorelli et al. (2021)
 #' 
 #' @param y.names a list with the names of the
 #' response variables which the MLPMMs have to be fitted to.

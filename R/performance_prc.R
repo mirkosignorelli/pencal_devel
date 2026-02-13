@@ -44,14 +44,13 @@
 #' @references 
 #' Signorelli, M. (2024). pencal: an R Package for the Dynamic 
 #' Prediction of Survival with Many Longitudinal Predictors. 
-#' To appear in: The R Journal. Preprint: arXiv:2309.15600
+#' The R Journal, 16 (2), 134-153.
 #' 
 #' Signorelli, M., Spitali, P., Al-Khalili Szigyarto, C, 
 #' The MARK-MD Consortium, Tsonaka, R. (2021). 
 #' Penalized regression calibration: a method for the prediction 
 #' of survival outcomes using complex longitudinal and 
 #' high-dimensional data. Statistics in Medicine, 40 (27), 6178-6196.
-#' DOI: 10.1002/sim.9178
 #' 
 #' @seealso for the PRC-LMM model: \code{\link{fit_lmms}} (step 1),
 #' \code{\link{summarize_lmms}} (step 2) and \code{\link{fit_prclmm}} (step 3);
@@ -122,9 +121,10 @@ performance_prc = function(step2, step3, metric = c('tdauc', 'c', 'brier'),
   pcox.orig = step3$pcox.orig
   surv.data = step3$surv.data
   n = length(unique(surv.data$id))
-  if (max(times) >= max(surv.data$time)) {
-    stop(paste('Some of the prediction times are larger than the larger event time in the dataset.',
-                'Edit the times argument as appropriate'))
+  if (max(times) > max(surv.data$time)) {
+    warning(paste('Some of the prediction times are larger than the larger event time in the dataset.',
+                'Keep in mind that predictions at those times are an extrapolation',
+                'that goes beyond the available data'))
   }
   # further checks
   if (step2$n.boots != step3$n.boots) {

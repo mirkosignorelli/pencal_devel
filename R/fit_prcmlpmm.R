@@ -1,9 +1,9 @@
-#' Step 3 of PRC-MLPMM (estimation of the penalized Cox model(s))
+#' Step 3 of PRC MLPMM (estimation of the penalized Cox model(s))
 #'
 #' This function performs the third step for the estimation
-#' of the PRC-MLPMM model proposed in Signorelli et al. (2021)
+#' of the PRC MLPMM model proposed in Signorelli et al. (2021)
 #' 
-#' @param object the output of step 2 of the PRC-MLPMM procedure, 
+#' @param object the output of step 2 of the PRC MLPMM estimation procedure, 
 #' as produced by the \code{\link{summarize_mlpmms}} function
 #' @param surv.data a data frame with the survival data and (if 
 #' relevant) additional baseline covariates. \code{surv.data} should at least
@@ -64,14 +64,13 @@
 #' @references
 #' Signorelli, M. (2024). pencal: an R Package for the Dynamic 
 #' Prediction of Survival with Many Longitudinal Predictors. 
-#' To appear in: The R Journal. Preprint: arXiv:2309.15600
+#' The R Journal, 16 (2), 134-153.
 #' 
 #' Signorelli, M., Spitali, P., Al-Khalili Szigyarto, C, 
 #' The MARK-MD Consortium, Tsonaka, R. (2021). 
 #' Penalized regression calibration: a method for the prediction 
 #' of survival outcomes using complex longitudinal and 
 #' high-dimensional data. Statistics in Medicine, 40 (27), 6178-6196.
-#' DOI: 10.1002/sim.9178
 #' 
 #' @seealso \code{\link{fit_mlpmms}} (step 1), 
 #' \code{\link{summarize_mlpmms}} (step 2),

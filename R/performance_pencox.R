@@ -37,14 +37,13 @@
 #' @references 
 #' Signorelli, M. (2024). pencal: an R Package for the Dynamic 
 #' Prediction of Survival with Many Longitudinal Predictors. 
-#' To appear in: The R Journal. Preprint: arXiv:2309.15600
+#' The R Journal, 16 (2), 134-153.
 #' 
 #' Signorelli, M., Spitali, P., Al-Khalili Szigyarto, C, 
 #' The MARK-MD Consortium, Tsonaka, R. (2021). 
 #' Penalized regression calibration: a method for the prediction 
 #' of survival outcomes using complex longitudinal and 
 #' high-dimensional data. Statistics in Medicine, 40 (27), 6178-6196.
-#' DOI: 10.1002/sim.9178
 #' 
 #' @seealso \code{\link{pencox}}
 #' 
@@ -123,6 +122,11 @@ performance_pencox = function(fitted_pencox, metric = c('tdauc', 'c', 'brier'),
   n = length(unique(surv.data$id))
   n.boots = fitted_pencox$n.boots
   # further checks
+  if (max(times) > max(surv.data$time)) {
+    warning(paste('Some of the prediction times are larger than the larger event time in the dataset.',
+                  'Keep in mind that predictions at those times are an extrapolation',
+                  'that goes beyond the available data'))
+  }
   if (n.boots == 0) {
     mess = paste('The bootstrap optimism correction has not',
             'been performed (n.boots = 0). Therefore, only the apparent',
