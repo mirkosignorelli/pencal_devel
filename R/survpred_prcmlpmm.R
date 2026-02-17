@@ -109,10 +109,8 @@ survpred_prcmlpmm = function(step2, step3, times = 1) {
   temp.sfit = survfit(cox.survival,
        newdata = data.frame('linpred.orig' = linpred.orig),
                       se.fit = F, conf.int = F)
-  shat.orig = t(summary(temp.sfit, 
-                       times = times)$surv)
-  preds = data.frame(rownames(ranef.orig),
-                   shat.orig)
+  shat.orig = t(summary(temp.sfit,  times = times, extend = T)$surv)
+  preds = data.frame(rownames(ranef.orig), shat.orig)
   names(preds) = c('id', paste('S(', times, ')', sep = '') )
   out = list('call' = call, 
              'predicted_survival' = preds)
