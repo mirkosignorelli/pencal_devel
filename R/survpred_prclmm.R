@@ -272,8 +272,8 @@ survpred_prclmm = function(step1, step2, step3,
   df.new = data.frame(linpred = X.new %*% beta.hat)
   temp.sfit = survfit(cox.survival,
        newdata = df.new, se.fit = F, conf.int = F)
-  shat.orig = t(summary(temp.sfit, 
-                       times = times)$surv)
+  shat.orig = t(summary(temp.sfit, times = times, extend = T)$surv)
+  
   # output
   preds = data.frame(rownames(X.new), shat.orig)
   names(preds) = c('id', paste('S(', times, ')', sep = '') )

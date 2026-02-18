@@ -16,6 +16,17 @@ Each subsection corresponds to a specific package version.
 
 # 2.3.x
 
+## pencal 2.3.1
+
+-   Released: TBD
+-   Changed error to warning for check on `times` argument in
+    `performance_prc`. Added same warning to `performance_pencox` for
+    consistency
+-   Added warning in `survpred_prclmm` and `survpred_prcmplmm` telling
+    users that they are trying to predict beyond the last observed time.
+    Added `extend = T` to `summary.survfit` call within such functions
+-   Minor updates to help pages (mostly formatting)
+
 ## pencal 2.3.0
 
 -   Released: June 2025
