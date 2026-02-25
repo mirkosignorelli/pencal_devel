@@ -112,7 +112,7 @@ summarize_lmms = function(object, n.cores = 1, verbose = TRUE) {
     mess = paste0('At least one of the following elements is missing in object: ',
                  paste(extra.inputs, collapse = ', '), 
                  ". Did you maybe alter the output of fit_lmms? (Pls don't)")
-    if (check2) stop(mess)
+    if (!any(check2)) stop(mess)
   }
   if (n.cores < 1) {
     warning('Input n.cores < 1, so we set n.cores = 1', immediate. = TRUE)
