@@ -14,7 +14,7 @@ Description: Computes penalized regression calibration (PRC), a
     longitudinal predictors are available. See Signorelli (2024)
     <doi:10.32614/RJ-2024-014> and Signorelli et al. (2021)
     <doi:10.1002/sim.9178> for details.
-License: GPL-3
+License: GPL (>= 3)
 URL: https://mirkosignorelli.github.io/r
 Depends: 
     R (>= 4.2.0)
@@ -23,4 +23,26 @@ VignetteBuilder:
 biocViews: 
 Encoding: UTF-8
 Roxygen: list(old_usage = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
+Imports: 
+    doParallel,
+    dplyr,
+    foreach,
+    glmnet,
+    lcmm,
+    magic,
+    MASS,
+    Matrix,
+    methods,
+    nlme,
+    purrr,
+    riskRegression,
+    stats,
+    survcomp,
+    survival,
+    survivalROC
+Suggests: 
+    knitr,
+    ptmixed,
+    rmarkdown,
+    survminer
