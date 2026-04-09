@@ -76,7 +76,7 @@
 #' 
 #' @docType data
 #' @keywords datasets
-#' @usage data(fitted_prclmm)
+#' @usage data(fitted_prcmlpmm)
 #'
 #' @format A list comprising step 2 and step 3 as obtained
 #' during the estimation of a PRC MLPMM
