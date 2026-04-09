@@ -74,7 +74,7 @@ survpred_prcmlpmm = function(step2, step3, times = 1) {
   check3 = (max(times) > maxTobs)
   mess3 = paste('The largest prediction time is bigger than the max observed time.',
                 'The Cox model cannot meaningfully predict beyond the largest observed time.')
-  if (check5) warning(mess3)
+  if (check3) warning(mess3)
   
   ###############################
   ##### COMPUTE PREDICTIONS #####
